@@ -7,7 +7,7 @@ export default function Document() {
         <meta name="theme-color" content="hsl(223, 14%, 10%)" />
         <meta
           name="description"
-          content="Ibrahim Hasaan. I&apos;m a Computer Science and Mathematics Major graduating in Spring 2024 and I'm looking for an Internship and/or a Job!"
+          // content="Ibrahim Hasaan. I&apos;m a Computer Science and Mathematics Major graduating in Spring 2024 and I'm looking for an Internship and/or a Job!"
         />
       </Head>
       <body className="font-mono">
