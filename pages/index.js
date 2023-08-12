@@ -31,8 +31,8 @@ export default function Home({ encodedEmail, emailKey }) {
           <Section name="About">
             <h3 className="font-extrabold">Hey there!</h3>
             <p>
-              {/* I&apos;m a Computer Science and Mathematics Major graduating in */}
-              Spring 2024 and I'm looking for an Internship and/or a Job!
+              I&apos;m a Computer Science and Mathematics Major graduating in
+              Spring 2024 and I&apos;m looking for an Internship and/or a Job!
             </p> <br />
             {/* TODO: Remove under construction text */}
             <p> 
