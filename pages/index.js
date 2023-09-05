@@ -53,20 +53,20 @@ export default function Home({ encodedEmail, emailKey }) {
           </p>
           {/* TODO: Update Projects */}
           <div className="pt-8">
-            <ProjectCard projectName="Professor Ratings for Spire" href="https://github.com/ibzimh/Professor-Ratings-for-Spire">
-              A tampermonkey script that imports professor ratings from ratemyprofessor.com to the university course selection website.
+            <ProjectCard projectName="Professor Ratings for Spire + API" href="https://github.com/ibzimh/Professor-Ratings-for-Spire">
+              An API that provides any professor's ratemyprofessor rating and a tampermonkey script that imports professor ratings from ratemyprofessor.com to the university course selection website.
             </ProjectCard>
             <ProjectCard projectName="Open Course Notifier" href="https://github.com/ibzimh/Open-Seat-Notifier">
-              TBD.
+              A project to notify students when a seat becomes available in a class, reducing the need for manual checks.
             </ProjectCard>
             <ProjectCard projectName="Conversational AI Toolkit" href="https://github.com/ibzimh">
-              TBD.
+              Script for extending the functionality of an AI chat website by adding multiple quality-of-life features like generating multiple messages at once, auto-generation mechanism to handle unwanted or unhelpful responses, auto-rating responses based on forbidden keywords allows injecting information to help restore bot memory.
             </ProjectCard>
             <ProjectCard projectName="Portfolio Website" href="https://github.com/ibzimh/ibzimh.github.io">
               A portfolio website to showcase projects to prospective employers.
             </ProjectCard>
-            <ProjectCard projectName="TBD" href="https://github.com/ibzimh">
-              TBD.
+            <ProjectCard projectName="Resolution-Preserving Image Compression" href="https://github.com/ibzimh">
+              A machine learning based image compression algorithm that achives upto 40% reduction in image file size while preserving the image&apos;s resolution.
             </ProjectCard>
           </div>
         </Section>
