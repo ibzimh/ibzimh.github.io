@@ -45,7 +45,7 @@ export default function Home({ encodedEmail, emailKey }) {
 
         <Section name="Projects">
           <p className="p-6 m-3">
-            Here are some of my projects that I have worked on. To view them all, please refer to
+            Here are some of my projects that I have worked on. To view them all, please refer to 
             <a href="https://github.com/ibzimh?tab=repositories&q=&type=&language=&sort=stargazers" className="hover:underline" target="_blank" rel="noreferrer">
               my GitHub page
             </a>
@@ -54,13 +54,13 @@ export default function Home({ encodedEmail, emailKey }) {
           {/* TODO: Update Projects */}
           <div className="pt-8">
             <ProjectCard projectName="Professor Ratings for Spire + API" href="https://github.com/ibzimh/Professor-Ratings-for-Spire">
-              An API that provides any professor&apos;s ratemyprofessor rating and a tampermonkey script that imports professor ratings from ratemyprofessor.com to the university course selection website.
+              An API that provides any professor&apos;s ratemyprofessor rating and a tampermonkey script that imports onto to the university course selection website.
             </ProjectCard>
             <ProjectCard projectName="Open Course Notifier" href="https://github.com/ibzimh/Open-Seat-Notifier">
               A project to notify students when a seat becomes available in a class, reducing the need for manual checks.
             </ProjectCard>
             <ProjectCard projectName="Conversational AI Toolkit" href="https://github.com/ibzimh">
-              Script for extending the functionality of an AI chat website by adding multiple quality-of-life features like generating multiple messages at once, auto-generation mechanism to handle unwanted or unhelpful responses, auto-rating responses based on forbidden keywords allows injecting information to help restore bot memory.
+              A project to extend the functionality of an AI chat website by adding multiple quality-of-life features like, auto-generation mechanism to handle unwanted or unhelpful responses, information injection to help restore bot memory etc.
             </ProjectCard>
             <ProjectCard projectName="Portfolio Website" href="https://github.com/ibzimh/ibzimh.github.io">
               A portfolio website to showcase projects to prospective employers.
