@@ -54,7 +54,7 @@ export default function Home({ encodedEmail, emailKey }) {
           {/* TODO: Update Projects */}
           <div className="pt-8">
             <ProjectCard projectName="Professor Ratings for Spire + API" href="https://github.com/ibzimh/Professor-Ratings-for-Spire">
-              An API that provides any professor's ratemyprofessor rating and a tampermonkey script that imports professor ratings from ratemyprofessor.com to the university course selection website.
+              An API that provides any professor&apos;s ratemyprofessor rating and a tampermonkey script that imports professor ratings from ratemyprofessor.com to the university course selection website.
             </ProjectCard>
             <ProjectCard projectName="Open Course Notifier" href="https://github.com/ibzimh/Open-Seat-Notifier">
               A project to notify students when a seat becomes available in a class, reducing the need for manual checks.
