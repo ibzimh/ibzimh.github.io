@@ -1,28 +1,32 @@
-
-
 @import url('https://fonts.bunny.net/css?family=JetBrains+Mono:wght@300;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-html, body {
-  /* Need to use important to override default daisy ui settings for dark mode */
-  background-color: hsl(223, 14%, 10%) !important;
+html,
+body {
+    /* Need to use important to override default daisy ui settings for dark mode */
+    background-color: hsl(223, 14%, 10%) !important;
 }
 
 ::selection {
-  background: #00FFE5;
-  color: black;
+    background: #00FFE5;
+    color: black;
 }
 
 @layer utilities {
-  .text-gradient {
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+    .text-gradient {
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .urdu-font {
+        font-family: 'Noto Nastaliq Urdu', serif;
+    }
 }

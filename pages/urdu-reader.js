@@ -9,7 +9,7 @@ export default function UrduReader() {
     const [selectedWord, setSelectedWord] = useState('');
     const [definition, setDefinition] = useState('');
     const [showPopup, setShowPopup] = useState(false);
-    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 }); // Initialize here
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     useEffect(() => {
         async function loadDictionary() {
@@ -36,13 +36,11 @@ export default function UrduReader() {
         setDefinition(def);
 
         const spanRect = e.currentTarget.getBoundingClientRect();
-
-        // Calculate position *before* showing the popup
         const popupTop = spanRect.bottom + window.scrollY + 5;
         const popupLeft = spanRect.left + window.scrollX;
 
-        setPopupPosition({ top: popupTop, left: popupLeft }); // Set position *before* showing
-        setShowPopup(true); // Now show the popup
+        setPopupPosition({ top: popupTop, left: popupLeft });
+        setShowPopup(true);
     };
 
     const closePopup = (e) => {
@@ -85,26 +83,30 @@ export default function UrduReader() {
                             placeholder="Enter Urdu text here..."
                             dir="rtl"
                             lang="ur"
-                            className="w-full p-4 text-base rounded-md border border-gray-700 bg-base-300 text-white"
+                            className="w-full p-4 text-xl md:text-xl lg:text-2xl rounded-md border border-gray-700 bg-base-300 text-white urdu-font leading-relaxed md:leading-normal lg:leading-loose" // Added leading classes here
                         />
                     </div>
 
-                    <div dir="rtl" lang="ur" className="mt-5 whitespace-pre-wrap text-center">
-                        {text.split(/\s+/).map((word, index) => (
-                            <span
-                                key={index}
-                                onClick={(e) => handleWordClick(e, word.replace(/[،.؟!]/g, ''))}
-                                className="relative cursor-pointer mx-1 text-white hover:text-[#f78166]
-                                           hover:-translate-y-1 transition-all duration-200"
-                            >
-                                {word}
-                            </span>
-                        ))}
+                    <div dir="rtl" lang="ur" className="mt-5 whitespace-pre-wrap text-center text-xl md:text-2xl lg:text-3xl urdu-font leading-relaxed md:leading-normal lg:leading-loose">  {/* Added leading classes here */}
+                        {text.split(/\s+/).map((word, index) => {
+                            const cleanWord = word.replace(/[،.؟!]/g, '');
+                            return (
+                                <span
+                                    key={index}
+                                    onClick={(e) => handleWordClick(e, cleanWord)}
+                                    className="cursor-pointer inline-block mx-1 text-white hover:text-[#f78166]
+                                            hover:-translate-y-1 transition-all duration-200"
+                                    style={{ padding: '0 2px' }}
+                                >
+                                    {word}
+                                </span>
+                            )
+                        })}
                     </div>
 
                     {showPopup && (
                         <div
-                            className="absolute p-4 bg-base-300 border border-gray-700 rounded-md shadow-lg z-50 text-white"
+                            className="absolute p-4 bg-base-300 border border-gray-700 rounded-md shadow-lg z-50 text-white urdu-font text-base"
                             style={{
                                 top: `${popupPosition.top}px`,
                                 left: `${popupPosition.left}px`,
