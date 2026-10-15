@@ -1,0 +1,17 @@
+---
+import { collections } from '../catalogue';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Not found / Ibrahim Hasaan</title>
+  </head>
+  <body>
+    <h1>404</h1>
+    <p>Nothing is filed under this address.</p>
+    <ul>
+      {collections.map((c) => <li><a href={`/${c.slug}/`}>{c.name}</a></li>)}
+    </ul>
+  </body>
+</html>

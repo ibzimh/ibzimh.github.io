@@ -1,0 +1,95 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { collections } from '../catalogue';
+import {
+  collectionBySlug,
+  getAllItems,
+  getCollectionItems,
+  getItemByNumber,
+  getNeighbours,
+  getPosition,
+  renderItem,
+} from '../lib/catalogue';
+import { countLabel, formatWords } from '../lib/format';
+
+type Props = { type: 'collection'; slug: string } | { type: 'item'; no: string };
+
+// One route file for collection pages and item pages; custom items have their own pages.
+export const getStaticPaths = (async () => {
+  const items = (await getAllItems()).filter((i) => !i.custom);
+  return [
+    ...collections.map((c) => ({ params: { slug: c.slug }, props: { type: 'collection', slug: c.slug } as Props })),
+    ...items.map((i) => ({ params: { slug: i.id }, props: { type: 'item', no: i.no } as Props })),
+  ];
+}) satisfies GetStaticPaths;
+
+const props = Astro.props as Props;
+
+const collection = props.type === 'collection' ? collectionBySlug(props.slug) : undefined;
+const list = collection ? await getCollectionItems(collection.letter) : [];
+const item = props.type === 'item' ? await getItemByNumber(props.no) : undefined;
+const rendered = item ? await renderItem(item) : undefined;
+const Content = rendered?.Content;
+const position = item ? await getPosition(item) : undefined;
+const { prev, next } = item ? await getNeighbours(item) : {};
+---
+
+{
+  collection && (
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <title>{collection.name} / Ibrahim Hasaan</title>
+      </head>
+      <body>
+        <h1>{collection.name}</h1>
+        <p>{collection.intro}</p>
+        {list.length === 0 ? (
+          <p>Nothing here yet.</p>
+        ) : (
+          <ul>
+            {list.map((i) => (
+              <li>
+                {i.no} {i.title} ({i.kind} · {collection.show === 'writing' ? `${i.dateText} · ${formatWords(i.words)}` : `${i.year} · ${i.status ?? ''}`}) {i.summary}
+              </li>
+            ))}
+          </ul>
+        )}
+        <p>{countLabel(list.length)}</p>
+      </body>
+    </html>
+  )
+}
+{
+  item && Content && position && (
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <title>{item.title} / Ibrahim Hasaan</title>
+      </head>
+      <body>
+        <p>
+          {item.collection.name} · {position.index} of {position.total}
+        </p>
+        <h1>{item.title}</h1>
+        <p>
+          {item.no} · {item.kind} · {item.dateText} · {formatWords(item.words)}
+        </p>
+        <p>{item.summary}</p>
+        {rendered && rendered.headings.length > 0 && (
+          <ul>
+            {rendered.headings.map((h) => (
+              <li>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Content />
+        <p>
+          {prev && <a href={prev.href}>Previous: {prev.no}</a>} {next && <a href={next.href}>Next: {next.no}</a>}
+        </p>
+      </body>
+    </html>
+  )
+}
