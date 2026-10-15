@@ -1,43 +1,37 @@
 ---
-import { getCounts, getNewestItems, getRange, getTotalCount } from '../lib/catalogue';
-import { countLabel } from '../lib/format';
+import Shell from '../layouts/Shell.astro';
+import Collections from '../components/Collections.astro';
+import Row from '../components/Row.astro';
+import { allShelves, itemStates, type CardState } from '../lib/card';
+import { getNewestItems } from '../lib/catalogue';
 
-const counts = await getCounts();
-const ranges = await Promise.all(counts.map((c) => getRange(c.collection.letter)));
 const newest = await getNewestItems(4);
-const total = await getTotalCount();
+const states = await itemStates(newest);
+const first = newest[0];
+const state: CardState = first
+  ? { ...(states.get(first.id) as CardState), label: 'Newest' }
+  : { num: 'IH', label: 'Newest', title: '', meta: '', line: '', sketch: '' };
+const shelves = await allShelves();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ibrahim Hasaan</title>
-  </head>
-  <body>
-    <h1>Ibrahim Hasaan</h1>
-    <p>{countLabel(total)}</p>
-    <ul>
-      {
-        counts.map((c, i) => (
-          <li>
-            <a href={`/${c.collection.slug}/`}>{c.collection.name}</a> {c.collection.blurb}{' '}
-            {ranges[i] ? `${ranges[i].first} – ${ranges[i].last}` : 'Empty'} · {countLabel(c.count)}
-          </li>
-        ))
-      }
-    </ul>
-    <h2>Newest</h2>
-    <ul>
-      {
-        newest.map((i) => (
-          <li>
-            <a href={i.href}>
-              {i.no} {i.title}
-            </a>{' '}
-            {i.dateText}
-          </li>
-        ))
-      }
-    </ul>
-  </body>
-</html>
+<Shell
+  description="Ibrahim Hasaan is a software engineer. This is his catalogue of writing and small tools."
+  layout="list"
+  page="home"
+  card={{ state, shelves, cur: first?.no, previews: true }}
+>
+  <div class="col">
+    <h1 class="intro">I’m Ibrahim. I’m a software engineer who writes about what I’m figuring out and builds small tools along the way.</h1>
+    <Collections />
+    {
+      newest.length > 0 && (
+        <Fragment>
+          <h2 class="lab sec">Recent</h2>
+          <ol class="rows noyr">
+            {newest.map((item) => <Row item={item} state={states.get(item.id) as CardState} />)}
+          </ol>
+        </Fragment>
+      )
+    }
+  </div>
+</Shell>

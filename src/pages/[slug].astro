@@ -1,16 +1,13 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { collections } from '../catalogue';
-import {
-  collectionBySlug,
-  getAllItems,
-  getCollectionItems,
-  getItemByNumber,
-  getNeighbours,
-  getPosition,
-  renderItem,
-} from '../lib/catalogue';
-import { countLabel, formatWords } from '../lib/format';
+import Shell from '../layouts/Shell.astro';
+import ItemLayout from '../layouts/ItemLayout.astro';
+import Filters from '../components/Filters.astro';
+import Row from '../components/Row.astro';
+import { getShelves, itemStates, type CardState } from '../lib/card';
+import { collectionBySlug, getAllItems, getCollectionItems, getItemByNumber, renderItem } from '../lib/catalogue';
+import { countLabel, kindSlug } from '../lib/format';
 
 type Props = { type: 'collection'; slug: string } | { type: 'item'; no: string };
 
@@ -24,72 +21,62 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const props = Astro.props as Props;
-
 const collection = props.type === 'collection' ? collectionBySlug(props.slug) : undefined;
 const list = collection ? await getCollectionItems(collection.letter) : [];
+const states = await itemStates(list);
+const first = list[0];
+const project = collection?.show === 'project';
+const countText = collection ? `${collection.name} · ${countLabel(list.length)}` : '';
+const state: CardState = collection
+  ? first
+    ? { ...(states.get(first.id) as CardState), label: countText }
+    : { num: collection.letter, label: countText, title: '', meta: '', line: '', sketch: '' }
+  : { num: '', label: '', title: '', meta: '', line: '', sketch: '' };
+const shelves = collection ? await getShelves([collection.letter]) : [];
+const kinds = collection ? collection.kinds.map((kind) => ({ kind, count: list.filter((i) => i.kind === kind).length })) : [];
 const item = props.type === 'item' ? await getItemByNumber(props.no) : undefined;
 const rendered = item ? await renderItem(item) : undefined;
 const Content = rendered?.Content;
-const position = item ? await getPosition(item) : undefined;
-const { prev, next } = item ? await getNeighbours(item) : {};
+let lastYear = '';
 ---
 
 {
   collection && (
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <title>{collection.name} / Ibrahim Hasaan</title>
-      </head>
-      <body>
-        <h1>{collection.name}</h1>
-        <p>{collection.intro}</p>
+    <Shell
+      title={collection.name}
+      description={collection.blurb}
+      layout="list"
+      page="collection"
+      coll={collection.letter}
+      card={{ state, shelves, cur: first?.no, previews: true }}
+    >
+      <div class="col">
+        <header class="head">
+          <h1>{collection.name}</h1>
+          <p>{collection.intro}</p>
+        </header>
+        <Filters name={collection.name} kinds={kinds} total={list.length} />
         {list.length === 0 ? (
-          <p>Nothing here yet.</p>
+          <p class="none">Nothing here yet.</p>
         ) : (
-          <ul>
-            {list.map((i) => (
-              <li>
-                {i.no} {i.title} ({i.kind} · {collection.show === 'writing' ? `${i.dateText} · ${formatWords(i.words)}` : `${i.year} · ${i.status ?? ''}`}) {i.summary}
-              </li>
-            ))}
-          </ul>
+          <ol class={`rows${project ? ' noyr' : ''}`}>
+            {list.map((i) => {
+              const year = project ? undefined : i.year !== lastYear ? i.year : '';
+              lastYear = i.year;
+              return <Row item={i} state={states.get(i.id) as CardState} year={year} kindToken={kindSlug(i.kind)} />;
+            })}
+          </ol>
         )}
-        <p>{countLabel(list.length)}</p>
-      </body>
-    </html>
+      </div>
+    </Shell>
   )
 }
 {
-  item && Content && position && (
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <title>{item.title} / Ibrahim Hasaan</title>
-      </head>
-      <body>
-        <p>
-          {item.collection.name} · {position.index} of {position.total}
-        </p>
-        <h1>{item.title}</h1>
-        <p>
-          {item.no} · {item.kind} · {item.dateText} · {formatWords(item.words)}
-        </p>
-        <p>{item.summary}</p>
-        {rendered && rendered.headings.length > 0 && (
-          <ul>
-            {rendered.headings.map((h) => (
-              <li>
-                <a href={`#${h.slug}`}>{h.text}</a>
-              </li>
-            ))}
-          </ul>
-        )}
+  item && Content && (
+    <ItemLayout no={item.no} headings={rendered?.headings}>
+      <article class="article">
         <Content />
-        <p>
-          {prev && <a href={prev.href}>Previous: {prev.no}</a>} {next && <a href={next.href}>Next: {next.no}</a>}
-        </p>
-      </body>
-    </html>
+      </article>
+    </ItemLayout>
   )
 }

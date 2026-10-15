@@ -1,17 +1,17 @@
 ---
-import { collections } from '../catalogue';
+import Shell from '../layouts/Shell.astro';
+import Collections from '../components/Collections.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Not found / Ibrahim Hasaan</title>
-  </head>
-  <body>
-    <h1>404</h1>
-    <p>Nothing is filed under this address.</p>
-    <ul>
-      {collections.map((c) => <li><a href={`/${c.slug}/`}>{c.name}</a></li>)}
-    </ul>
-  </body>
-</html>
+<Shell
+  title="Not found"
+  description="Nothing is filed under this address."
+  layout="item"
+  page="404"
+  card={{ state: { num: '404', label: 'Not found', title: '', meta: '', line: '', sketch: '' } }}
+>
+  <div class="col">
+    <h1 class="intro">Nothing is filed under this address.</h1>
+    <Collections />
+  </div>
+</Shell>

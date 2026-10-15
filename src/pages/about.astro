@@ -1,27 +1,40 @@
 ---
+import Shell from '../layouts/Shell.astro';
 import { collections } from '../catalogue';
-import { getCounts, getFirstYear, getTotalCount } from '../lib/catalogue';
+import { allShelves } from '../lib/card';
+import { getFirstYear, getTotalCount } from '../lib/catalogue';
 import { countLabel } from '../lib/format';
 
 const total = await getTotalCount();
 const since = await getFirstYear();
-const counts = await getCounts();
 const letters = collections.map((c) => `${c.letter} for ${c.name.toLowerCase()}`).join(', ');
+const meta = [since ? `Catalogue since ${since}` : 'Catalogue', countLabel(collections.length, 'collection', 'collections'), countLabel(total)].join(' · ');
+const shelves = await allShelves();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>About / Ibrahim Hasaan</title>
-  </head>
-  <body>
-    <h1>About</h1>
-    <p>
-      Catalogue {since ? `since ${since} · ` : ''}{countLabel(collections.length, 'collection', 'collections')} · {countLabel(total)}
-    </p>
-    <p>Letters: {letters}.</p>
-    <ul>
-      {counts.map((c) => <li>{c.collection.name}: {countLabel(c.count)}</li>)}
-    </ul>
-  </body>
-</html>
+<Shell
+  title="About"
+  description="Ibrahim Hasaan is a software engineer. This is his catalogue of writing and small tools."
+  layout="item"
+  page="about"
+  card={{ state: { num: 'IH', label: 'About', title: '', meta, line: '', sketch: '' }, shelves }}
+>
+  <div class="col">
+    <h1 class="sr">About</h1>
+    <div class="about">
+      <p>I’m Ibrahim, a software engineer. I like programs that are small enough to hold in your head, and I spend most of my free time making them smaller.</p>
+      <p>This site is where I keep what I learn. Some of it becomes writing, usually when I’ve explained something to myself three times and it finally makes sense. Some of it becomes a small tool I use every week.</p>
+      <p>Nothing here is finished for long. Pieces get rewritten, and projects get paused when something else takes over. That’s part of the point.</p>
+    </div>
+    <section class="elsewhere">
+      <h2 class="lab">Elsewhere</h2>
+      <ul>
+        <li><span>GitHub</span><a href="https://github.com/ibzimh">github.com/ibzimh ↗</a></li>
+      </ul>
+    </section>
+    <section class="how">
+      <h2 class="lab">How this catalogue works</h2>
+      <p>Every item gets a number. The letter in front of it is the collection it belongs to: {letters}. When a new interest turns into a collection of its own, it gets a new letter.</p>
+    </section>
+  </div>
+</Shell>
