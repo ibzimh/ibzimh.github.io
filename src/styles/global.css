@@ -47,12 +47,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .card{container-type:inline-size;position:fixed;top:var(--bar);bottom:0;left:var(--rail);width:calc((100% - var(--rail)) * .38);border-right:1px solid var(--ink);background:var(--paper);z-index:10;padding:var(--s24) var(--s32) var(--s32);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
 .card-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);min-height:var(--s16);line-height:16px}
 .card-top{flex:none}
-.num{font-weight:800;letter-spacing:-.06em;line-height:.86;height:.86em;white-space:nowrap;font-variant-numeric:tabular-nums;margin:var(--s16) 0 0 -.04em;font-size:min(100cqw / 2.32, 26vh)}
-.num.n1{font-size:min(100cqw / 1.12, 46vh);letter-spacing:-.04em}
-.num .c{display:inline-block;overflow:hidden;height:.86em;vertical-align:top;padding-right:.08em;margin-right:-.08em}
+.num{pointer-events:none;position:relative;font-weight:800;letter-spacing:-.015em;line-height:.86;height:.86em;white-space:nowrap;margin:var(--s16) 0 0 -.02em;transition:margin-left .13s;font-size:min(100cqw / 2.32, 26vh)}
+.num.n1{font-size:min(100cqw / 1.12, 46vh)}
+.num .d{margin:0 -.01em 0 -.04em}
+.num[data-l=W] .d{margin-left:-.055em}
+.num[data-l=P] .d{margin-left:-.01em}
+.num .one{margin-left:-.06em}
+/* left edge: cancels each first glyph's side bearing so it lines up with the card text */
+.num[data-l=W]{margin-left:-.012em}
+.num[data-l=P],.num[data-l=I]{margin-left:-.063em}
+.num[data-l="4"]{margin-left:-.006em}
+.num .c .d,.num .c .one{margin:0}
+.num .c{position:absolute;top:0;height:.86em;clip-path:inset(-.12em -.3em)}
 .num .c>span{display:block;height:.86em}
-.num .col{display:block}
-.num .col>span{display:block;height:.86em}
+.num .col>span{display:block;height:1.1em}
 .card-bot{margin-top:auto;padding-top:var(--s24);flex:none}
 .sketch-wrap:not(:empty){margin-bottom:var(--s16)}
 .sketch{width:220px;max-width:100%;border:1px solid var(--ink);display:block}
@@ -134,6 +142,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .article code{font-family:var(--mono);font-size:.82em;background:var(--code);padding:1px var(--s4)}
 .article pre{background:var(--code);margin-top:var(--s24);padding:var(--s16) var(--s24);overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;tab-size:2}
 .article pre code{background:none;padding:0;font-size:inherit}
+.article pre,.article code{font-variant-ligatures:none}
+.article>:first-child{margin-top:0}
 .article blockquote{margin:var(--s32) 0 0;padding-left:var(--s24);border-left:1px solid var(--ink);font-style:italic;font-size:22px;line-height:1.4}
 .article blockquote p{margin-top:0}
 .article sup{font-family:var(--sans);font-size:.65em;font-weight:600;line-height:0;vertical-align:super;margin-left:1px}
@@ -182,7 +192,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .how{margin-top:var(--s48);border-top:1px solid var(--ink);padding-top:var(--s16)}
 .how p{font-size:15px;line-height:1.55;margin-top:var(--s8);max-width:56ch;color:var(--mute)}
 
-@media (prefers-reduced-motion:reduce){.row::before,a{transition:none}}
+@media (prefers-reduced-motion:reduce){.row::before,a,.num{transition:none}}
+/* instant page swap: no cross-fade */
+::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
 
 /* Phone and small tablet */
 @media (max-width:999px){
@@ -215,7 +227,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .rows li{grid-template-columns:minmax(0,1fr)}
   .rows .yr{padding:var(--s24) 0 var(--s4)}
   .rows .yr:empty{display:none}
-  .row{grid-template-columns:48px minmax(0,1fr);column-gap:var(--s12);padding:var(--s12) var(--s8) var(--s12) var(--s12)}
+  .row{grid-template-columns:48px minmax(0,1fr);column-gap:var(--s12);padding:var(--s12) var(--s8) var(--s12) 0}
+  .row::before{left:calc(var(--s8) * -1)}
   .row .meta{grid-column:2;text-align:left;margin-top:var(--s4)}
   .row .meta .st{display:inline;margin:0 0 0 var(--s8)}
   .row .meta .st::before{content:"· "}

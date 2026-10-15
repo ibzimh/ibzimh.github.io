@@ -6,5 +6,6 @@ export default defineConfig({
   trailingSlash: 'always',
   build: { format: 'directory' },
   markdown: { syntaxHighlight: false },
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   integrations: [mdx()],
 });

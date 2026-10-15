@@ -4,8 +4,10 @@ import { cardAttrs, type Shelf } from '../lib/card';
 interface Props {
   shelf: Shelf;
   cur?: string;
+  /** List pages: the rows are the keyboard path, so cells stay out of the Tab order. */
+  skipTab?: boolean;
 }
-const { shelf, cur } = Astro.props;
+const { shelf, cur, skipTab = false } = Astro.props;
 ---
 
 <div class="shelf" role="group" aria-label={`${shelf.collection.name} shelf`}>
@@ -17,6 +19,8 @@ const { shelf, cur } = Astro.props;
           href={cell.href}
           class={cell.no === cur ? 'cur' : undefined}
           aria-label={`${cell.no} ${cell.title}`}
+          aria-current={cell.no === cur ? 'page' : undefined}
+          tabindex={skipTab ? -1 : undefined}
           {...cardAttrs(cell.state)}
         >
           {cell.no.slice(2)}

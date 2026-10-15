@@ -1,4 +1,5 @@
-// Live card on home and collection pages: preview on hover/focus, rolling number.
+// The catalogue card: the big number rolls when you move between pages; on home and collection
+// pages it also previews whatever you hover or focus. Re-initialised after every client-side navigation.
 export interface CardState {
   num: string;
   label: string;
@@ -25,94 +26,134 @@ export function stateFrom(el: HTMLElement): CardState {
   };
 }
 
+const ROLL_MS = 130;
+// Changes closer together than this count as scanning: update at once, no flourish.
+const SCAN_MS = 250;
+const HOLD_MS = 400;
+
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function init(): CardController | null {
+/** The controller for the current page (null where the card does not preview). */
+export let cardController: CardController | null = null;
+
+let teardown: (() => void) | undefined;
+let leaving = ''; // the number on screen when the last page was left
+
+// The number is plain text, so the font's own kerning applies. Only a roll swaps in per-character cells.
+function plain(el: HTMLElement, text: string) {
+  const nodes: Node[] = [];
+  [...text].forEach((ch, i) => {
+    const cls = ch === '-' ? 'd' : ch === '1' && i > 0 ? 'one' : '';
+    if (!cls) return void nodes.push(document.createTextNode(ch));
+    const s = document.createElement('span');
+    s.className = cls;
+    s.textContent = ch;
+    nodes.push(s);
+  });
+  el.replaceChildren(...nodes);
+}
+
+// Left edge of each character as laid out right now, relative to the number.
+function offsets(el: HTMLElement): number[] {
+  const base = el.getBoundingClientRect().left;
+  const out: number[] = [];
+  const range = document.createRange();
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const len = (n as Text).length;
+    for (let i = 0; i < len; i++) {
+      range.setStart(n, i);
+      range.setEnd(n, i + 1);
+      out.push(range.getBoundingClientRect().left - base);
+    }
+  }
+  return out;
+}
+
+function glyph(ch: string) {
+  const s = document.createElement('span');
+  s.textContent = ch;
+  if (ch === '-') s.className = 'd';
+  return s;
+}
+
+function init(from: string) {
+  teardown?.();
+  cardController = null;
   const card = document.querySelector<HTMLElement>('.card');
-  if (!card || document.body.dataset.layout !== 'list') return null;
-  const elNum = card.querySelector<HTMLElement>('.num');
+  const elNum = card?.querySelector<HTMLElement>('.num');
+  if (!card || !elNum) return;
   const elLabel = card.querySelector<HTMLElement>('.card-label');
   const elTitle = card.querySelector<HTMLElement>('.card-title');
   const elMeta = card.querySelector<HTMLElement>('.card-meta');
   const elLine = card.querySelector<HTMLElement>('.card-line');
   const elSketch = card.querySelector<HTMLElement>('.sketch-wrap');
-  if (!elNum) return null;
 
   let curNum = elNum.getAttribute('aria-label') ?? '';
   let curKey = '';
   let curSketch = card.dataset.cardSketch ?? '';
   let defaultState = stateFrom(card);
+  let lastAt = 0;
   let settle: number | undefined;
-  let showTimer: number | undefined;
   let holdTimer: number | undefined;
 
-  const cell = (ch: string) => {
-    const c = document.createElement('span');
-    c.className = 'c';
-    const s = document.createElement('span');
-    s.textContent = ch;
-    if (ch === '-') s.className = 'd';
-    c.appendChild(s);
-    return c;
-  };
-  const paint = (t: string) => elNum.replaceChildren(...[...t].map(cell));
+  const sizeClass = (t: string) => `num ${[...t].length === 1 ? 'n1' : 'n4'}`;
 
-  // Each character rolls like a counter; an interrupted roll is repainted cleanly.
+  // Each changed character rolls like a counter; unchanged ones slide to their new place.
   function setNum(t: string, animate: boolean) {
     if (t === curNum) return;
-    if (settle !== undefined) {
+    const rolling = settle !== undefined;
+    if (rolling) {
       clearTimeout(settle);
       settle = undefined;
-      paint(curNum);
     }
     const old = [...curNum];
     const next = [...t];
+    const fromX = rolling ? [] : offsets(elNum!);
     curNum = t;
-    elNum!.className = `num ${next.length === 1 ? 'n1' : 'n4'}`;
+    leaving = t;
+    elNum!.className = sizeClass(t);
+    elNum!.dataset.l = t[0];
     elNum!.setAttribute('aria-label', t);
-    if (!animate || reduced() || old.length === 0) {
-      paint(t);
-      return;
-    }
-    const n = Math.max(old.length, next.length);
+    plain(elNum!, t);
+    // Scanning (a roll still running) jumps straight to the new number.
+    if (!animate || rolling || reduced() || old.length === 0) return;
+    const toX = offsets(elNum!);
     const kids: HTMLElement[] = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < Math.max(old.length, next.length); i++) {
       const o = old[i] ?? '';
       const nw = next[i] ?? '';
-      if (o === nw) {
-        kids.push(cell(o));
-        continue;
-      }
+      const x = toX[i] ?? fromX[i] ?? 0;
       const c = document.createElement('span');
       c.className = 'c';
-      const col = document.createElement('span');
-      col.className = 'col';
-      for (const ch of [o, nw]) {
-        const s = document.createElement('span');
-        s.textContent = ch;
-        if (ch === '-') s.className = 'd';
-        col.appendChild(s);
+      c.style.left = `${x}px`;
+      if (o === nw) c.appendChild(glyph(o));
+      else {
+        const col = document.createElement('span');
+        col.className = 'col';
+        col.append(glyph(o), glyph(nw));
+        c.appendChild(col);
+        col.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-50%)' }], {
+          duration: ROLL_MS,
+          easing: 'cubic-bezier(.2,.8,.2,1)',
+          fill: 'both',
+        });
       }
-      c.appendChild(col);
+      const dx = (fromX[i] ?? x) - x;
+      if (dx) c.animate([{ transform: `translateX(${dx}px)` }, { transform: 'none' }], { duration: ROLL_MS, easing: 'cubic-bezier(.2,.8,.2,1)' });
       kids.push(c);
-      col.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-50%)' }], {
-        duration: 220,
-        delay: i * 30,
-        easing: 'cubic-bezier(.2,.8,.2,1)',
-        fill: 'both',
-      });
     }
     elNum!.replaceChildren(...kids);
     settle = window.setTimeout(() => {
       settle = undefined;
-      paint(curNum);
-    }, 220 + n * 30 + 40);
+      plain(elNum!, curNum);
+    }, ROLL_MS + 30);
   }
 
   function setText(el: HTMLElement | null, text: string, animate: boolean) {
     if (!el || el.textContent === text) return;
     el.textContent = text;
-    if (animate && !reduced() && text) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160 });
+    if (animate && !reduced() && text) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 120 });
   }
 
   function setSketch(kind: string, animate: boolean) {
@@ -120,13 +161,16 @@ function init(): CardController | null {
     curSketch = kind;
     const tpl = kind ? card!.querySelector<HTMLTemplateElement>(`template[data-kind="${CSS.escape(kind)}"]`) : null;
     elSketch.replaceChildren(...(tpl ? [tpl.content.cloneNode(true)] : []));
-    if (animate && !reduced() && tpl) elSketch.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160 });
+    if (animate && !reduced() && tpl) elSketch.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 120 });
   }
 
-  function setCard(s: CardState, animate: boolean) {
+  function setCard(s: CardState) {
     const key = JSON.stringify(s);
     if (key === curKey) return;
     curKey = key;
+    const now = performance.now();
+    const animate = now - lastAt > SCAN_MS;
+    lastAt = now;
     setNum(s.num, animate);
     setText(elLabel, s.label, animate);
     setText(elTitle, s.title, animate);
@@ -141,41 +185,55 @@ function init(): CardController | null {
     el?.classList.add('on');
   }
 
-  const clearTimers = () => {
-    clearTimeout(showTimer);
-    clearTimeout(holdTimer);
-  };
   function show(el: HTMLElement) {
-    clearTimers();
-    showTimer = window.setTimeout(() => {
-      mark(el.classList.contains('row') ? el : null);
-      setCard(stateFrom(el), true);
-    }, 40);
+    clearTimeout(holdTimer);
+    mark(el.classList.contains('row') ? el : null);
+    setCard(stateFrom(el));
   }
   function hold() {
-    clearTimers();
+    clearTimeout(holdTimer);
     holdTimer = window.setTimeout(() => {
       mark(null);
-      setCard(defaultState, true);
-    }, 400);
+      setCard(defaultState);
+    }, HOLD_MS);
   }
 
+  teardown = () => {
+    clearTimeout(settle);
+    clearTimeout(holdTimer);
+    teardown = undefined;
+  };
+
+  // Arrived from another page: start from the old number and roll to this one.
+  curKey = JSON.stringify(defaultState);
+  if (from && from !== curNum && !reduced()) {
+    const target = curNum;
+    curNum = from;
+    elNum.className = sizeClass(from);
+    elNum.dataset.l = from[0];
+    plain(elNum, from);
+    setNum(target, true);
+  } else leaving = curNum;
+
+  if (document.body.dataset.layout !== 'list') return;
   document.querySelectorAll<HTMLElement>('.row[data-card-num], .shelf a[data-card-num]').forEach((el) => {
     el.addEventListener('pointerenter', () => show(el));
     el.addEventListener('focus', () => show(el));
     el.addEventListener('pointerleave', hold);
     el.addEventListener('blur', hold);
   });
-
-  curKey = JSON.stringify(defaultState);
-  return {
+  cardController = {
     setDefault(s) {
-      clearTimers();
+      clearTimeout(holdTimer);
       defaultState = s;
       mark(null);
-      setCard(s, false);
+      lastAt = 0;
+      setCard(s);
     },
   };
 }
 
-export const cardController = init();
+init('');
+// Before the first paint of each new page: the old number is still known here.
+document.addEventListener('astro:after-swap', () => init(leaving));
+document.addEventListener('astro:before-swap', () => teardown?.());

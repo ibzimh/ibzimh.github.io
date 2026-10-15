@@ -1,8 +1,14 @@
 // Contents list on item pages: mark the section you are reading.
+export {};
+let tocStop: AbortController | undefined;
+
 function init() {
+  tocStop?.abort();
   const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
   const heads = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))));
   if (!links.length) return;
+  const ctl = new AbortController();
+  tocStop = ctl;
   let queued = false;
 
   function spy() {
@@ -22,9 +28,11 @@ function init() {
         requestAnimationFrame(spy);
       }
     },
-    { passive: true },
+    { passive: true, signal: ctl.signal },
   );
   spy();
 }
 
 init();
+document.addEventListener('astro:after-swap', init);
+document.addEventListener('astro:before-swap', () => tocStop?.abort());

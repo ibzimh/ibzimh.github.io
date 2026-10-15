@@ -1,9 +1,14 @@
 // Kind filters on collection pages. The server HTML lists every row; this hides the ones that don't match.
 import { cardController, stateFrom } from './card';
 
+let filterStop: AbortController | undefined;
+
 function init() {
+  filterStop?.abort();
   const bar = document.querySelector<HTMLElement>('.filters');
   if (!bar || !cardController) return;
+  const ctl = new AbortController();
+  filterStop = ctl;
   const buttons = [...bar.querySelectorAll<HTMLButtonElement>('button[data-f]')];
   const rows = [...document.querySelectorAll<HTMLElement>('.rows > li[data-kind]')];
   const tokens = new Set(buttons.map((b) => b.dataset.f ?? '').filter(Boolean));
@@ -24,7 +29,7 @@ function init() {
     for (const b of buttons) b.setAttribute('aria-pressed', String((b.dataset.f ?? '') === f));
     const first = shown[0]?.querySelector<HTMLElement>('.row');
     if (!first) return;
-    cardController!.setDefault({
+    cardController?.setDefault({
       ...stateFrom(first),
       label: f ? `${name} · showing ${shown.length} of ${total}` : allLabel,
     });
@@ -37,19 +42,22 @@ function init() {
     } catch {
       /* malformed hash: treat as none */
     }
-    apply(tokens.has(h) ? h : '');
+    apply(tokens.has(h.toLowerCase()) ? h.toLowerCase() : '');
   }
 
   bar.addEventListener('click', (e) => {
     const b = (e.target as Element).closest<HTMLButtonElement>('button[data-f]');
     if (!b) return;
     const f = b.dataset.f ?? '';
-    history.replaceState(null, '', f ? `#${f}` : location.pathname + location.search);
+    // keep the router's own history state, only the address changes
+    history.replaceState(history.state, '', f ? `#${f}` : location.pathname + location.search);
     apply(f);
   });
-  window.addEventListener('hashchange', fromHash);
+  window.addEventListener('hashchange', fromHash, { signal: ctl.signal });
   bar.hidden = false;
   fromHash();
 }
 
 init();
+document.addEventListener('astro:after-swap', init);
+document.addEventListener('astro:before-swap', () => filterStop?.abort());

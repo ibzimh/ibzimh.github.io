@@ -5,13 +5,14 @@ interface Props {
   current?: string;
   /** True on the collection page itself; item pages only mark the tab as the current section. */
   onPage?: boolean;
+  home?: boolean;
 }
-const { current, onPage = false } = Astro.props;
+const { current, onPage = false, home = false } = Astro.props;
 const slotLabel = 'Room for future collections';
 ---
 
 <nav class="rail" aria-label="Collections">
-  <a class="logo" href="/" aria-label="Home">IH</a>
+  <a class="logo" href="/" aria-label="Home" aria-current={home ? 'page' : undefined}>IH</a>
   {
     collections.map((c) => (
       <a class="tab" href={`/${c.slug}/`} aria-current={c.letter === current ? (onPage ? 'page' : 'true') : undefined}>
