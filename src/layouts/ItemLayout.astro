@@ -1,0 +1,43 @@
+---
+// The shell and card for one catalogue item. Used by [slug].astro and by hand-made pages (custom: true).
+import Shell from './Shell.astro';
+import { getItemByNumber, getNeighbours, getPosition, type Heading } from '../lib/catalogue';
+import { getShelves, itemState, positionLabel } from '../lib/card';
+
+interface Props {
+  /** Catalogue number, e.g. "P-05". */
+  no: string;
+  /** h2 headings for the Contents list (shown when there are 2 or more). */
+  headings?: Heading[];
+}
+const { no, headings = [] } = Astro.props;
+const item = await getItemByNumber(no);
+if (!item) throw new Error(`ItemLayout: no item numbered ${no}. Check the "no" prop and the file in src/content.`);
+const { index, total } = await getPosition(item);
+const { prev, next } = await getNeighbours(item);
+const link = (i: typeof prev) => (i ? { no: i.no, title: i.title, href: i.href } : undefined);
+const shelves = await getShelves([item.collection.letter]);
+const state = { ...itemState(item, positionLabel(item.collection, index, total)), sketch: '' };
+---
+
+<Shell
+  title={item.title}
+  description={item.summary}
+  layout="item"
+  page="item"
+  coll={item.collection.letter}
+  ogType={item.collection.show === 'writing' ? 'article' : 'website'}
+  card={{
+    state,
+    shelves,
+    cur: item.no,
+    links: item.links,
+    toc: headings.length >= 2 ? headings.map((h) => ({ slug: h.slug, text: h.text })) : [],
+    nav: { prev: link(prev), next: link(next) },
+  }}
+>
+  <div class="col">
+    <h1 class="sr">{item.title}</h1>
+    <slot />
+  </div>
+</Shell>

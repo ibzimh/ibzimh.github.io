@@ -1,0 +1,11 @@
+---
+import { sketches } from '../lib/sketches';
+
+interface Props {
+  kind: string;
+}
+const { kind } = Astro.props;
+const body = sketches[kind];
+---
+
+{body && <svg class="sketch sk" viewBox="0 0 220 132" aria-hidden="true" set:html={body} />}

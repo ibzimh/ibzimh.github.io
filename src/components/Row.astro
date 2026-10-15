@@ -1,0 +1,27 @@
+---
+import { cardAttrs, type CardState } from '../lib/card';
+import type { Item } from '../lib/catalogue';
+import { numberHtml } from '../lib/format';
+
+interface Props {
+  item: Item;
+  state: CardState;
+  /** Year group label for the left column; undefined = this list has no year column. */
+  year?: string;
+  /** Filter token for the item's kind (collection pages). */
+  kindToken?: string;
+}
+const { item, state, year, kindToken } = Astro.props;
+const project = item.collection.show === 'project';
+---
+
+<li data-year={item.year} data-kind={kindToken}>
+  {year !== undefined && <span class="yr">{year}</span>}
+  <a class="row" href={item.href} {...cardAttrs(state)}>
+    <span class="no" set:html={numberHtml(item.no)} />
+    <span class="t">{item.title}{project && <span class="sub">{item.summary}</span>}</span>
+    <span class="meta">
+      {item.kind} · {project ? item.year : item.dateText}{project && item.status && <span class="st">{item.status}</span>}
+    </span>
+  </a>
+</li>

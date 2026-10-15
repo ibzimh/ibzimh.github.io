@@ -1,0 +1,24 @@
+---
+import { cardAttrs } from '../lib/card';
+import { collectionState } from '../lib/card';
+import { getCollectionItemsByNumber, getRange, type Collection } from '../lib/catalogue';
+import { countLabel, numberHtml } from '../lib/format';
+
+interface Props {
+  collection: Collection;
+}
+const { collection: c } = Astro.props;
+const count = (await getCollectionItemsByNumber(c.letter)).length;
+const range = await getRange(c.letter);
+const state = await collectionState(c);
+---
+
+<li>
+  <a class="row crow" href={`/${c.slug}/`} {...cardAttrs(state)}>
+    <span class="big">{c.letter}</span>
+    <span class="t">{c.name}<span class="sub">{c.blurb}</span></span>
+    <span class="meta">
+      {range ? <Fragment set:html={`${numberHtml(range.first)} – ${numberHtml(range.last)}`} /> : 'Empty'}<span class="ct">{countLabel(count)}</span>
+    </span>
+  </a>
+</li>

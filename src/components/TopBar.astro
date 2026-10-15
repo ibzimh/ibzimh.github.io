@@ -1,0 +1,17 @@
+---
+import { countLabel } from '../lib/format';
+
+interface Props {
+  about: boolean;
+  total: number;
+}
+const { about, total } = Astro.props;
+---
+
+<header class="topbar">
+  <a class="name" href="/">Ibrahim Hasaan</a>
+  <div class="topr">
+    <a href="/about/" aria-current={about ? 'page' : undefined}>About</a>
+    <span class="count">{countLabel(total)}</span>
+  </div>
+</header>

@@ -1,0 +1,61 @@
+---
+import '@fontsource-variable/hanken-grotesk/wght.css';
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '../styles/global.css';
+import Card from '../components/Card.astro';
+import Rail from '../components/Rail.astro';
+import TopBar from '../components/TopBar.astro';
+import { getTotalCount } from '../lib/catalogue';
+import type { CardProps } from '../lib/card';
+
+interface Props {
+  /** Page name; the site name is added after it. Omit on the home page. */
+  title?: string;
+  description: string;
+  /** 'list' = home and collection pages (slim sticky card bar on phones). */
+  layout: 'list' | 'item';
+  page: 'home' | 'collection' | 'item' | 'about' | '404';
+  /** Letter of the current collection (lights up its rail tab). */
+  coll?: string;
+  card: CardProps;
+  ogType?: 'website' | 'article';
+}
+const { title, description, layout, page, coll, card, ogType = 'website' } = Astro.props;
+const fullTitle = title ? `${title} / Ibrahim Hasaan` : 'Ibrahim Hasaan';
+const canonical = page === '404' ? undefined : new URL(Astro.url.pathname, Astro.site).href;
+const total = await getTotalCount();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Ibrahim Hasaan" />
+    <meta name="theme-color" content="#f4f3ef" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body data-page={page} data-layout={layout} data-coll={coll}>
+    <a class="skip" href="#main">Skip to content</a>
+    <TopBar about={page === 'about'} total={total} />
+    <Rail current={coll} onPage={page === 'collection'} />
+    <Card {...card} />
+    <main class="main" id="main" tabindex="-1">
+      <slot />
+    </main>
+    <script>
+      import '../scripts/card';
+      import '../scripts/filters';
+      import '../scripts/toc';
+    </script>
+  </body>
+</html>

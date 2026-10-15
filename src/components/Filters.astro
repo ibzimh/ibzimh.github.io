@@ -1,0 +1,35 @@
+---
+import { countLabel, kindSlug } from '../lib/format';
+
+interface Props {
+  name: string;
+  kinds: { kind: string; count: number }[];
+  total: number;
+}
+const { name, kinds, total } = Astro.props;
+// Shown (by the script) only when there is more than one kind to choose from.
+const shown = kinds.filter((k) => k.count > 0);
+---
+
+{
+  shown.length > 1 && (
+    <div
+      class="filters"
+      role="group"
+      aria-label="Filter by kind"
+      hidden
+      data-name={name}
+      data-total={total}
+      data-all-label={`${name} · ${countLabel(total)}`}
+    >
+      <button type="button" data-f="" aria-pressed="true">
+        <span class="tx">All {total}</span>
+      </button>
+      {shown.map((k) => (
+        <button type="button" data-f={kindSlug(k.kind)} aria-pressed="false">
+          <span class="tx">{k.kind} {k.count}</span>
+        </button>
+      ))}
+    </div>
+  )
+}

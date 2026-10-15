@@ -1,0 +1,27 @@
+---
+import { cardAttrs, type Shelf } from '../lib/card';
+
+interface Props {
+  shelf: Shelf;
+  cur?: string;
+}
+const { shelf, cur } = Astro.props;
+---
+
+<div class="shelf" role="group" aria-label={`${shelf.collection.name} shelf`}>
+  <span class="sl">{shelf.collection.letter}</span>
+  <div class="cells">
+    {
+      shelf.cells.map((cell) => (
+        <a
+          href={cell.href}
+          class={cell.no === cur ? 'cur' : undefined}
+          aria-label={`${cell.no} ${cell.title}`}
+          {...cardAttrs(cell.state)}
+        >
+          {cell.no.slice(2)}
+        </a>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,9 @@
+---
+import { collections } from '../catalogue';
+import CollectionRow from './CollectionRow.astro';
+---
+
+<h2 class="lab sec">Collections</h2>
+<ol class="rows noyr">
+  {collections.map((c) => <CollectionRow collection={c} />)}
+</ol>
