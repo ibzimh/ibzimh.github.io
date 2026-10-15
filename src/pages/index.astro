@@ -2,15 +2,12 @@
 import Shell from '../layouts/Shell.astro';
 import Collections from '../components/Collections.astro';
 import Row from '../components/Row.astro';
-import { allShelves, itemStates, type CardState } from '../lib/card';
+import { allShelves, itemStates, monogramState, type CardState } from '../lib/card';
 import { getNewestItems } from '../lib/catalogue';
 
 const newest = await getNewestItems(4);
 const states = await itemStates(newest);
-const first = newest[0];
-const state: CardState = first
-  ? { ...(states.get(first.id) as CardState), label: 'Newest' }
-  : { num: 'IH', label: 'Newest', title: '', meta: '', line: '', sketch: '' };
+const state = await monogramState('Ibrahim Hasaan');
 const shelves = await allShelves();
 ---
 
@@ -18,7 +15,7 @@ const shelves = await allShelves();
   description="Ibrahim Hasaan is a software engineer. This is his catalogue of writing and small tools."
   layout="list"
   page="home"
-  card={{ state, shelves, cur: first?.no, previews: true }}
+  card={{ state, shelves, previews: true }}
 >
   <div class="col">
     <h1 class="intro">I’m Ibrahim. I’m a software engineer who writes about what I’m figuring out and builds small tools along the way.</h1>

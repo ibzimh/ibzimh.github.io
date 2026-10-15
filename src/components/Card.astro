@@ -8,21 +8,21 @@ import { sketches } from '../lib/sketches';
 type Props = CardProps;
 const { state, shelves = [], cur, previews = false, links = [], toc = [], nav } = Astro.props;
 const chars = [...state.num];
-const hasFoot = !!(state.title || state.meta || state.line || links.length || toc.length);
+const hasFoot = !!(previews || state.title || state.meta || state.line || links.length || toc.length);
 ---
 
 <aside class="card" aria-label="Catalogue card" {...cardAttrs(state)}>
   <div class="card-top">
     <div class="card-label">{state.label}</div>
-    <div class={`num ${chars.length === 1 ? 'n1' : 'n4'}`} data-l={chars[0]} role="img" aria-label={state.num}>
-      {chars.map((ch, i) => (ch === '-' ? <span class="d">-</span> : ch === '1' && i > 0 ? <span class="one">1</span> : ch))}
+    <div class="num" data-l={chars[0]} role="img" aria-label={state.num}>
+      {chars.map((ch) => (ch === '-' ? <span class="d">-</span> : ch))}
     </div>
     {shelves.length > 0 && <div class="shelf-wrap">{shelves.map((shelf) => <Shelf shelf={shelf} cur={cur} skipTab={previews} />)}</div>}
   </div>
   <div class="card-bot">
     <div class="sketch-wrap">{state.sketch && <Sketch kind={state.sketch} />}</div>
     {hasFoot && <div class="card-foot">
-      {state.title && <h2 class="card-title">{state.title}</h2>}
+      <h2 class="card-title">{state.title}</h2>
       <p class="card-meta">{state.meta}</p>
       <p class="card-line">{state.line}</p>
       <div class="card-extra">

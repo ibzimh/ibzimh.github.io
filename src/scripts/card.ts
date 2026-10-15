@@ -27,6 +27,7 @@ export function stateFrom(el: HTMLElement): CardState {
 }
 
 const ROLL_MS = 130;
+const FADE_MS = 100;
 // Changes closer together than this count as scanning: update at once, no flourish.
 const SCAN_MS = 250;
 const HOLD_MS = 400;
@@ -40,17 +41,22 @@ let teardown: (() => void) | undefined;
 let leaving = ''; // the number on screen when the last page was left
 
 // The number is plain text, so the font's own kerning applies. Only a roll swaps in per-character cells.
-function plain(el: HTMLElement, text: string) {
-  const nodes: Node[] = [];
-  [...text].forEach((ch, i) => {
-    const cls = ch === '-' ? 'd' : ch === '1' && i > 0 ? 'one' : '';
-    if (!cls) return void nodes.push(document.createTextNode(ch));
-    const s = document.createElement('span');
-    s.className = cls;
-    s.textContent = ch;
-    nodes.push(s);
-  });
-  el.replaceChildren(...nodes);
+// With fade, everything after the first character goes in a wrapper that fades in.
+function plain(el: HTMLElement, text: string, fade = false) {
+  const chars = [...text];
+  const part = (cs: string[]) =>
+    cs.map((ch) => {
+      if (ch !== '-') return document.createTextNode(ch);
+      const s = document.createElement('span');
+      s.className = 'd';
+      s.textContent = ch;
+      return s;
+    });
+  if (!fade) return void el.replaceChildren(...part(chars));
+  const tail = document.createElement('span');
+  tail.append(...part(chars.slice(1)));
+  el.replaceChildren(...part(chars.slice(0, 1)), tail);
+  tail.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE_MS });
 }
 
 // Left edge of each character as laid out right now, relative to the number.
@@ -97,9 +103,8 @@ function init(from: string) {
   let settle: number | undefined;
   let holdTimer: number | undefined;
 
-  const sizeClass = (t: string) => `num ${[...t].length === 1 ? 'n1' : 'n4'}`;
-
-  // Each changed character rolls like a counter; unchanged ones slide to their new place.
+  // Same letter, new digits: only the changed digits roll, in place. A letter gaining or losing
+  // its digits fades them in or drops them. Anything else swaps instantly.
   function setNum(t: string, animate: boolean) {
     if (t === curNum) return;
     const rolling = settle !== undefined;
@@ -109,29 +114,26 @@ function init(from: string) {
     }
     const old = [...curNum];
     const next = [...t];
-    const fromX = rolling ? [] : offsets(elNum!);
+    const sameLetter = old.length > 0 && old[0] === next[0];
+    const go = animate && !rolling && !reduced() && sameLetter;
     curNum = t;
     leaving = t;
-    elNum!.className = sizeClass(t);
     elNum!.dataset.l = t[0];
     elNum!.setAttribute('aria-label', t);
+    if (go && old.length === 1 && next.length > 1) return plain(elNum!, t, true);
     plain(elNum!, t);
-    // Scanning (a roll still running) jumps straight to the new number.
-    if (!animate || rolling || reduced() || old.length === 0) return;
+    if (!go || old.length !== next.length || old.length === 1) return;
     const toX = offsets(elNum!);
     const kids: HTMLElement[] = [];
-    for (let i = 0; i < Math.max(old.length, next.length); i++) {
-      const o = old[i] ?? '';
-      const nw = next[i] ?? '';
-      const x = toX[i] ?? fromX[i] ?? 0;
+    next.forEach((nw, i) => {
       const c = document.createElement('span');
       c.className = 'c';
-      c.style.left = `${x}px`;
-      if (o === nw) c.appendChild(glyph(o));
+      c.style.left = `${toX[i]}px`;
+      if (old[i] === nw) c.appendChild(glyph(nw));
       else {
         const col = document.createElement('span');
         col.className = 'col';
-        col.append(glyph(o), glyph(nw));
+        col.append(glyph(old[i]), glyph(nw));
         c.appendChild(col);
         col.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-50%)' }], {
           duration: ROLL_MS,
@@ -139,10 +141,8 @@ function init(from: string) {
           fill: 'both',
         });
       }
-      const dx = (fromX[i] ?? x) - x;
-      if (dx) c.animate([{ transform: `translateX(${dx}px)` }, { transform: 'none' }], { duration: ROLL_MS, easing: 'cubic-bezier(.2,.8,.2,1)' });
       kids.push(c);
-    }
+    });
     elNum!.replaceChildren(...kids);
     settle = window.setTimeout(() => {
       settle = undefined;
@@ -209,7 +209,6 @@ function init(from: string) {
   if (from && from !== curNum && !reduced()) {
     const target = curNum;
     curNum = from;
-    elNum.className = sizeClass(from);
     elNum.dataset.l = from[0];
     plain(elNum, from);
     setNum(target, true);

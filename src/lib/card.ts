@@ -2,7 +2,9 @@ import { collections } from '../catalogue';
 import {
   collectionByLetter,
   getCollectionItemsByNumber,
+  getFirstYear,
   getRange,
+  getTotalCount,
   type Collection,
   type Item,
 } from './catalogue';
@@ -80,7 +82,7 @@ export async function itemStates(items: Item[]): Promise<Map<string, CardState>>
   return map;
 }
 
-/** What a collection row shows: the letter alone, huge. */
+/** What a collection row shows: the letter alone. */
 export async function collectionState(c: Collection): Promise<CardState> {
   const n = (await getCollectionItemsByNumber(c.letter)).length;
   const range = await getRange(c.letter);
@@ -92,6 +94,21 @@ export async function collectionState(c: Collection): Promise<CardState> {
     line: '',
     sketch: '',
   };
+}
+
+/** "Catalogue since 2025 · 2 collections · 11 items" */
+export async function catalogueMeta(): Promise<string> {
+  const since = await getFirstYear();
+  return [
+    since ? `Catalogue since ${since}` : 'Catalogue',
+    countLabel(collections.length, 'collection', 'collections'),
+    countLabel(await getTotalCount()),
+  ].join(' · ');
+}
+
+/** The card's resting state on home and About: the monogram. */
+export async function monogramState(label: string): Promise<CardState> {
+  return { num: 'IH', label, title: '', meta: await catalogueMeta(), line: '', sketch: '' };
 }
 
 /** Shelves (one small number cell per item) for the given collections. */

@@ -12,6 +12,7 @@ function init() {
   const buttons = [...bar.querySelectorAll<HTMLButtonElement>('button[data-f]')];
   const rows = [...document.querySelectorAll<HTMLElement>('.rows > li[data-kind]')];
   const tokens = new Set(buttons.map((b) => b.dataset.f ?? '').filter(Boolean));
+  const base = stateFrom(document.querySelector<HTMLElement>('.card') as HTMLElement);
   const { name = '', total = '0', allLabel = '' } = bar.dataset;
 
   function apply(f: string) {
@@ -27,12 +28,7 @@ function init() {
       lastYear = li.dataset.year ?? '';
     }
     for (const b of buttons) b.setAttribute('aria-pressed', String((b.dataset.f ?? '') === f));
-    const first = shown[0]?.querySelector<HTMLElement>('.row');
-    if (!first) return;
-    cardController?.setDefault({
-      ...stateFrom(first),
-      label: f ? `${name} · showing ${shown.length} of ${total}` : allLabel,
-    });
+    cardController?.setDefault({ ...base, label: f ? `${name} · showing ${shown.length} of ${total}` : allLabel });
   }
 
   function fromHash() {

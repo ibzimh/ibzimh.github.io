@@ -1,14 +1,10 @@
 ---
 import Shell from '../layouts/Shell.astro';
 import { collections } from '../catalogue';
-import { allShelves } from '../lib/card';
-import { getFirstYear, getTotalCount } from '../lib/catalogue';
-import { countLabel } from '../lib/format';
+import { allShelves, monogramState } from '../lib/card';
 
-const total = await getTotalCount();
-const since = await getFirstYear();
 const letters = collections.map((c) => `${c.letter} for ${c.name.toLowerCase()}`).join(', ');
-const meta = [since ? `Catalogue since ${since}` : 'Catalogue', countLabel(collections.length, 'collection', 'collections'), countLabel(total)].join(' · ');
+const state = await monogramState('About');
 const shelves = await allShelves();
 ---
 
@@ -17,7 +13,7 @@ const shelves = await allShelves();
   description="Ibrahim Hasaan is a software engineer. This is his catalogue of writing and small tools."
   layout="item"
   page="about"
-  card={{ state: { num: 'IH', label: 'About', title: '', meta, line: '', sketch: '' }, shelves }}
+  card={{ state, shelves }}
 >
   <div class="col">
     <h1 class="sr">About</h1>

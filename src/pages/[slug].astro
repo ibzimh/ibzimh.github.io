@@ -5,7 +5,7 @@ import Shell from '../layouts/Shell.astro';
 import ItemLayout from '../layouts/ItemLayout.astro';
 import Filters from '../components/Filters.astro';
 import Row from '../components/Row.astro';
-import { getShelves, itemStates, type CardState } from '../lib/card';
+import { collectionState, getShelves, itemStates, type CardState } from '../lib/card';
 import { collectionBySlug, getAllItems, getCollectionItems, getItemByNumber, renderItem } from '../lib/catalogue';
 import { countLabel, kindSlug } from '../lib/format';
 
@@ -24,13 +24,10 @@ const props = Astro.props as Props;
 const collection = props.type === 'collection' ? collectionBySlug(props.slug) : undefined;
 const list = collection ? await getCollectionItems(collection.letter) : [];
 const states = await itemStates(list);
-const first = list[0];
 const project = collection?.show === 'project';
 const countText = collection ? `${collection.name} · ${countLabel(list.length)}` : '';
 const state: CardState = collection
-  ? first
-    ? { ...(states.get(first.id) as CardState), label: countText }
-    : { num: collection.letter, label: countText, title: '', meta: '', line: '', sketch: '' }
+  ? { ...(await collectionState(collection)), label: countText }
   : { num: '', label: '', title: '', meta: '', line: '', sketch: '' };
 const shelves = collection ? await getShelves([collection.letter]) : [];
 const kinds = collection ? collection.kinds.map((kind) => ({ kind, count: list.filter((i) => i.kind === kind).length })) : [];
@@ -48,7 +45,7 @@ let lastYear = '';
       layout="list"
       page="collection"
       coll={collection.letter}
-      card={{ state, shelves, cur: first?.no, previews: true }}
+      card={{ state, shelves, previews: true }}
     >
       <div class="col">
         <header class="head">
