@@ -18,6 +18,7 @@ export interface Item {
   status?: 'Active' | 'Done' | 'Paused';
   links: { label: string; href: string }[];
   custom: boolean;
+  app?: string; // opens this address instead of the item's own page
   words: number;
   href: string; // "/w-04/"
   entry: CollectionEntry<'w'>;
@@ -70,8 +71,9 @@ async function load(c: CollectionDef): Promise<Item[]> {
       status: d.status,
       links: d.links ?? [],
       custom: d.custom ?? false,
+      app: d.app,
       words: countWords(entry.body ?? ''),
-      href: `/${entry.id}/`,
+      href: d.app ?? `/${entry.id}/`,
       entry,
     });
   }

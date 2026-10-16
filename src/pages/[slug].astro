@@ -9,18 +9,24 @@ import { collectionState, getShelves, itemStates, type CardState } from '../lib/
 import { collectionBySlug, getAllItems, getCollectionItems, getItemByNumber, renderItem } from '../lib/catalogue';
 import { countLabel, kindSlug } from '../lib/format';
 
-type Props = { type: 'collection'; slug: string } | { type: 'item'; no: string };
+type Props = { type: 'collection'; slug: string } | { type: 'item'; no: string } | { type: 'app'; href: string; title: string };
 
 // One route file for collection pages and item pages; custom items have their own pages.
+// Items that open an app keep their old address as a redirect to it.
 export const getStaticPaths = (async () => {
   const items = (await getAllItems()).filter((i) => !i.custom);
   return [
     ...collections.map((c) => ({ params: { slug: c.slug }, props: { type: 'collection', slug: c.slug } as Props })),
-    ...items.map((i) => ({ params: { slug: i.id }, props: { type: 'item', no: i.no } as Props })),
+    ...items.map((i) => ({
+      params: { slug: i.id },
+      props: (i.app ? { type: 'app', href: i.app, title: i.title } : { type: 'item', no: i.no }) as Props,
+    })),
   ];
 }) satisfies GetStaticPaths;
 
 const props = Astro.props as Props;
+const app = props.type === 'app' ? props.href : '';
+const appTitle = props.type === 'app' ? props.title : '';
 const collection = props.type === 'collection' ? collectionBySlug(props.slug) : undefined;
 const list = collection ? await getCollectionItems(collection.letter) : [];
 const states = await itemStates(list);
@@ -75,5 +81,21 @@ let lastYear = '';
         <Content />
       </article>
     </ItemLayout>
+  )
+}
+{
+  app && (
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <title>{appTitle}</title>
+        <meta http-equiv="refresh" content={`0;url=${app}`} />
+        <meta name="robots" content="noindex" />
+        <link rel="canonical" href={new URL(app, Astro.site).href} />
+      </head>
+      <body>
+        <a href={app}>Open {appTitle}</a>
+      </body>
+    </html>
   )
 }
