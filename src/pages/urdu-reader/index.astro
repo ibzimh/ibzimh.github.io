@@ -1,6 +1,64 @@
 ---
-// The Urdu reader is a plain HTML app with its files in public/urdu-reader/. Served from a page so /urdu-reader/ works in dev too.
-import html from '../../projects/urdu-reader/index.html?raw';
+// The Urdu reader: a plain HTML app with its files in public/urdu-reader/. is:inline keeps Astro and Vite out of its script.
 ---
 
-<Fragment set:html={html} />
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Urdu Reader</title>
+<meta name="description" content="Paste Urdu text, read it nicely set, and tap any word to see its meaning.">
+<meta name="theme-color" content="#f4f3ef">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/noto-nastaliq-urdu-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body data-view="compose">
+<header class="bar">
+  <div class="crumb">
+    <a class="crumb-desk home" href="/">Ibrahim Hasaan</a><span class="crumb-desk sep" aria-hidden="true">/</span><span class="crumb-desk here" aria-current="page">Urdu Reader</span>
+    <a class="crumb-phone here" href="/">Urdu Reader</a>
+  </div>
+  <div class="ctl">
+    <div class="grp" role="group" aria-label="Script">
+      <button type="button" class="tb" data-mode="urdu" aria-pressed="true">Urdu</button><span class="dot" aria-hidden="true">·</span><button type="button" class="tb" data-mode="roman" aria-pressed="false">Roman</button><span class="dot" aria-hidden="true">·</span><button type="button" class="tb" data-mode="both" aria-pressed="false">Both</button>
+    </div>
+    <div class="grp size-top" role="group" aria-label="Text size">
+      <button type="button" class="tb" data-act="smaller" aria-label="Smaller text">A−</button><button type="button" class="tb" data-act="larger" aria-label="Larger text">A+</button>
+    </div>
+    <button type="button" class="tb strong" id="toggle" data-act="toggle" disabled>Read</button>
+  </div>
+</header>
+
+<main class="shell">
+  <aside class="card" id="card" aria-label="Word card">
+    <button type="button" class="close" id="close" aria-label="Close word card">×</button>
+    <div class="card-scroll" id="card-scroll" tabindex="-1"><div class="card-body" id="card-body"></div></div>
+    <div class="sr-only" id="announce" aria-live="polite" aria-atomic="true"></div>
+  </aside>
+
+  <div class="reader" id="reader">
+    <section class="col col-compose" id="compose" dir="rtl" aria-label="Your text">
+      <textarea id="input" lang="ur" dir="rtl" rows="1" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Urdu text" placeholder="یہاں اردو متن چسپاں کریں" autofocus></textarea>
+      <div class="hint" dir="ltr">
+        <span class="hint-text"><span id="hint-text">Paste or type Urdu, then ⌘ Enter to read</span><span class="dotsep"> · </span></span>
+        <button type="button" class="lnk" data-act="sample">Try a sample</button>
+        <button type="button" class="lnk quiet" id="clear" data-act="clear" hidden>Clear</button>
+      </div>
+      <noscript><p class="noscript" dir="ltr">The Urdu reader needs JavaScript.</p></noscript>
+    </section>
+    <section class="col col-read" id="read" aria-label="Reading" hidden>
+      <div id="text"></div>
+    </section>
+    <div class="foot" id="foot">
+      <div class="foot-looked" id="looked-phone"></div>
+      <div class="foot-size grp" role="group" aria-label="Text size">
+        <span class="lab">Size</span><button type="button" class="tb" data-act="smaller" aria-label="Smaller text">A−</button><button type="button" class="tb" data-act="larger" aria-label="Larger text">A+</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script is:inline type="module" src="js/app.js"></script>
+</body>
+</html>
