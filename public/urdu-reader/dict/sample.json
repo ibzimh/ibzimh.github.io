@@ -1,0 +1,813 @@
+{
+  "version": 1,
+  "name": "Sample dictionary",
+  "entries": [
+    {
+      "ur": "آج",
+      "roman": "aaj",
+      "pos": "adverb",
+      "meanings": [
+        "today"
+      ]
+    },
+    {
+      "ur": "صبح",
+      "roman": "subah",
+      "pos": "noun (f)",
+      "meanings": [
+        "morning"
+      ]
+    },
+    {
+      "ur": "بارش",
+      "roman": "baarish",
+      "pos": "noun (f)",
+      "meanings": [
+        "rain"
+      ],
+      "examples": [
+        {
+          "ur": "کل رات بہت بارش ہوئی۔",
+          "roman": "kal raat bahut baarish hui.",
+          "en": "It rained a lot last night."
+        }
+      ]
+    },
+    {
+      "ur": "ہونا",
+      "roman": "hona",
+      "pos": "verb",
+      "meanings": [
+        "to be",
+        "to happen"
+      ],
+      "forms": [
+        {
+          "ur": "ہو",
+          "roman": "ho",
+          "note": "are (with tum); be"
+        },
+        {
+          "ur": "ہے",
+          "roman": "hai",
+          "note": "is"
+        },
+        {
+          "ur": "ہیں",
+          "roman": "hain",
+          "note": "are"
+        },
+        {
+          "ur": "تھا",
+          "roman": "tha",
+          "note": "was (masculine)"
+        },
+        {
+          "ur": "تھی",
+          "roman": "thi",
+          "note": "was (feminine)"
+        },
+        {
+          "ur": "تھے",
+          "roman": "the",
+          "note": "were; was (plural)"
+        }
+      ]
+    },
+    {
+      "ur": "رہنا",
+      "roman": "rehna",
+      "pos": "verb",
+      "meanings": [
+        "to stay",
+        "to live",
+        "(after a verb) keep on, be ...-ing"
+      ],
+      "forms": [
+        {
+          "ur": "رہی",
+          "roman": "rahi",
+          "note": "keeps on / is …-ing (feminine)"
+        },
+        {
+          "ur": "رہے",
+          "roman": "rahe",
+          "note": "keeps on / is …-ing (plural)"
+        },
+        {
+          "ur": "رہا",
+          "roman": "raha",
+          "note": "keeps on / is …-ing (masculine)"
+        }
+      ]
+    },
+    {
+      "ur": "میں",
+      "roman": "main",
+      "pos": "pronoun",
+      "meanings": [
+        "I"
+      ],
+      "context": {
+        "next": [
+          "نے",
+          "ہوں",
+          "تھا",
+          "تھی",
+          "بھی",
+          "تو",
+          "نہیں",
+          "اپنے",
+          "اپنی",
+          "اپنا",
+          "آپ",
+          "کل",
+          "آج",
+          "اب"
+        ],
+        "start": true
+      }
+    },
+    {
+      "ur": "میں",
+      "roman": "mein",
+      "pos": "postposition",
+      "meanings": [
+        "in",
+        "inside"
+      ]
+    },
+    {
+      "ur": "نے",
+      "roman": "ne",
+      "pos": "particle",
+      "meanings": [
+        "marks who did the action (used with past tense)"
+      ]
+    },
+    {
+      "ur": "چائے",
+      "roman": "chaaye",
+      "pos": "noun (f)",
+      "meanings": [
+        "tea"
+      ],
+      "examples": [
+        {
+          "ur": "کیا آپ چائے پئیں گے؟",
+          "roman": "kya aap chaaye piyenge?",
+          "en": "Will you have some tea?"
+        }
+      ]
+    },
+    {
+      "ur": "بنانا",
+      "roman": "banaana",
+      "pos": "verb",
+      "meanings": [
+        "to make",
+        "to build",
+        "to prepare"
+      ],
+      "examples": [
+        {
+          "ur": "مجھے کھانا بنانا آتا ہے۔",
+          "roman": "mujhe khaana banaana aata hai.",
+          "en": "I know how to cook."
+        }
+      ],
+      "forms": [
+        {
+          "ur": "بنائی",
+          "roman": "banaai",
+          "note": "made (feminine)"
+        },
+        {
+          "ur": "بنایا",
+          "roman": "banaaya",
+          "note": "made (masculine)"
+        }
+      ]
+    },
+    {
+      "ur": "اور",
+      "roman": "aur",
+      "pos": "conjunction",
+      "meanings": [
+        "and",
+        "more"
+      ]
+    },
+    {
+      "ur": "کھڑکی",
+      "roman": "khirki",
+      "pos": "noun (f)",
+      "meanings": [
+        "window"
+      ]
+    },
+    {
+      "ur": "کا",
+      "roman": "ka",
+      "pos": "postposition",
+      "meanings": [
+        "of",
+        "'s"
+      ],
+      "forms": [
+        {
+          "ur": "کی",
+          "roman": "ki",
+          "note": "of (feminine)"
+        },
+        {
+          "ur": "کے",
+          "roman": "ke",
+          "note": "of (plural)"
+        }
+      ]
+    },
+    {
+      "ur": "پاس",
+      "roman": "paas",
+      "pos": "postposition",
+      "meanings": [
+        "near",
+        "beside",
+        "(with کے) in someone's possession"
+      ]
+    },
+    {
+      "ur": "بیٹھنا",
+      "roman": "baithna",
+      "pos": "verb",
+      "meanings": [
+        "to sit"
+      ],
+      "forms": [
+        {
+          "ur": "بیٹھ",
+          "roman": "baith"
+        },
+        {
+          "ur": "بیٹھا",
+          "roman": "baitha"
+        }
+      ]
+    },
+    {
+      "ur": "جانا",
+      "roman": "jaana",
+      "pos": "verb",
+      "meanings": [
+        "to go",
+        "(after a verb) shows the action is completed"
+      ],
+      "forms": [
+        {
+          "ur": "گیا",
+          "roman": "gaya",
+          "note": "went (masculine)"
+        },
+        {
+          "ur": "گئی",
+          "roman": "gayi",
+          "note": "went (feminine)"
+        },
+        {
+          "ur": "گئے",
+          "roman": "gaye",
+          "note": "went (plural)"
+        },
+        {
+          "ur": "جا",
+          "roman": "ja"
+        }
+      ]
+    },
+    {
+      "ur": "باہر",
+      "roman": "baahar",
+      "pos": "adverb",
+      "meanings": [
+        "outside"
+      ]
+    },
+    {
+      "ur": "گلی",
+      "roman": "gali",
+      "pos": "noun (f)",
+      "meanings": [
+        "lane",
+        "narrow street"
+      ]
+    },
+    {
+      "ur": "بچہ",
+      "roman": "bachcha",
+      "pos": "noun (m)",
+      "meanings": [
+        "child"
+      ],
+      "forms": [
+        {
+          "ur": "بچے",
+          "roman": "bachche",
+          "note": "children; of the child"
+        }
+      ]
+    },
+    {
+      "ur": "کاغذ",
+      "roman": "kaaghaz",
+      "pos": "noun (m)",
+      "meanings": [
+        "paper"
+      ]
+    },
+    {
+      "ur": "کشتی",
+      "roman": "kashti",
+      "pos": "noun (f)",
+      "meanings": [
+        "boat"
+      ],
+      "forms": [
+        {
+          "ur": "کشتیاں",
+          "roman": "kashtiyaan",
+          "note": "boats (plural)"
+        }
+      ]
+    },
+    {
+      "ur": "چلانا",
+      "roman": "chalaana",
+      "pos": "verb",
+      "meanings": [
+        "to drive",
+        "to sail",
+        "to run (something)"
+      ],
+      "forms": [
+        {
+          "ur": "چلا",
+          "roman": "chala"
+        }
+      ]
+    },
+    {
+      "ur": "مجھے",
+      "roman": "mujhe",
+      "pos": "pronoun",
+      "meanings": [
+        "me",
+        "to me"
+      ]
+    },
+    {
+      "ur": "اپنا",
+      "roman": "apna",
+      "pos": "pronoun",
+      "meanings": [
+        "one's own (my own, your own, etc.)"
+      ],
+      "forms": [
+        {
+          "ur": "اپنے",
+          "roman": "apne",
+          "note": "one's own (plural)"
+        },
+        {
+          "ur": "اپنی",
+          "roman": "apni",
+          "note": "one's own (feminine)"
+        }
+      ]
+    },
+    {
+      "ur": "بچپن",
+      "roman": "bachpan",
+      "pos": "noun (m)",
+      "meanings": [
+        "childhood"
+      ]
+    },
+    {
+      "ur": "یاد",
+      "roman": "yaad",
+      "pos": "noun (f)",
+      "meanings": [
+        "memory",
+        "(یاد آنا) to remember, to come to mind"
+      ],
+      "examples": [
+        {
+          "ur": "مجھے اس کا نام یاد نہیں۔",
+          "roman": "mujhe us ka naam yaad nahin.",
+          "en": "I don't remember his name."
+        }
+      ]
+    },
+    {
+      "ur": "آنا",
+      "roman": "aana",
+      "pos": "verb",
+      "meanings": [
+        "to come"
+      ],
+      "forms": [
+        {
+          "ur": "آ",
+          "roman": "aa"
+        },
+        {
+          "ur": "آیا",
+          "roman": "aaya"
+        }
+      ]
+    },
+    {
+      "ur": "جب",
+      "roman": "jab",
+      "pos": "conjunction",
+      "meanings": [
+        "when"
+      ]
+    },
+    {
+      "ur": "ہم",
+      "roman": "hum",
+      "pos": "pronoun",
+      "meanings": [
+        "we"
+      ]
+    },
+    {
+      "ur": "بھی",
+      "roman": "bhi",
+      "pos": "particle",
+      "meanings": [
+        "also",
+        "too",
+        "even"
+      ]
+    },
+    {
+      "ur": "یہی",
+      "roman": "yahi",
+      "pos": "pronoun",
+      "meanings": [
+        "this very",
+        "the same"
+      ]
+    },
+    {
+      "ur": "کھیل",
+      "roman": "khel",
+      "pos": "noun (m)",
+      "meanings": [
+        "game",
+        "play"
+      ]
+    },
+    {
+      "ur": "کھیلنا",
+      "roman": "khelna",
+      "pos": "verb",
+      "meanings": [
+        "to play"
+      ],
+      "examples": [
+        {
+          "ur": "بچے باہر کھیلنا چاہتے ہیں۔",
+          "roman": "bachche baahar khelna chaahte hain.",
+          "en": "The children want to play outside."
+        }
+      ],
+      "forms": [
+        {
+          "ur": "کھیلا",
+          "roman": "khela"
+        }
+      ]
+    },
+    {
+      "ur": "کرنا",
+      "roman": "karna",
+      "pos": "verb",
+      "meanings": [
+        "to do",
+        "(کیا کرنا after a verb) used to do"
+      ],
+      "forms": [
+        {
+          "ur": "کرتے",
+          "roman": "karte"
+        },
+        {
+          "ur": "کیا",
+          "roman": "kiya",
+          "note": "did"
+        }
+      ]
+    },
+    {
+      "ur": "شام",
+      "roman": "shaam",
+      "pos": "noun (f)",
+      "meanings": [
+        "evening"
+      ]
+    },
+    {
+      "ur": "کو",
+      "roman": "ko",
+      "pos": "postposition",
+      "meanings": [
+        "to",
+        "at (a time)",
+        "marks the object"
+      ]
+    },
+    {
+      "ur": "دوست",
+      "roman": "dost",
+      "pos": "noun (m)",
+      "meanings": [
+        "friend"
+      ],
+      "examples": [
+        {
+          "ur": "میرا دوست کل آئے گا۔",
+          "roman": "mera dost kal aayega.",
+          "en": "My friend will come tomorrow."
+        }
+      ]
+    },
+    {
+      "ur": "سے",
+      "roman": "se",
+      "pos": "postposition",
+      "meanings": [
+        "from",
+        "with",
+        "than"
+      ]
+    },
+    {
+      "ur": "ملنا",
+      "roman": "milna",
+      "pos": "verb",
+      "meanings": [
+        "to meet",
+        "to get"
+      ],
+      "examples": [
+        {
+          "ur": "مجھے آپ سے ملنا ہے۔",
+          "roman": "mujhe aap se milna hai.",
+          "en": "I want to meet you."
+        }
+      ],
+      "forms": [
+        {
+          "ur": "ملنے",
+          "roman": "milne"
+        }
+      ]
+    },
+    {
+      "ur": "وہ",
+      "roman": "woh",
+      "pos": "pronoun",
+      "meanings": [
+        "he",
+        "she",
+        "that",
+        "they"
+      ],
+      "forms": [
+        {
+          "ur": "اس",
+          "roman": "us",
+          "note": "him, her, that (before a postposition)"
+        }
+      ]
+    },
+    {
+      "ur": "ایک",
+      "roman": "ek",
+      "pos": "adjective",
+      "meanings": [
+        "one",
+        "a, an"
+      ]
+    },
+    {
+      "ur": "پرانا",
+      "roman": "puraana",
+      "pos": "adjective",
+      "meanings": [
+        "old (of things)"
+      ],
+      "examples": [
+        {
+          "ur": "یہ ایک پرانا گھر ہے۔",
+          "roman": "yeh ek puraana ghar hai.",
+          "en": "This is an old house."
+        }
+      ],
+      "forms": [
+        {
+          "ur": "پرانی",
+          "roman": "puraani",
+          "note": "old (feminine)"
+        },
+        {
+          "ur": "پرانے",
+          "roman": "puraane",
+          "note": "old (plural)"
+        }
+      ]
+    },
+    {
+      "ur": "کتاب",
+      "roman": "kitaab",
+      "pos": "noun (f)",
+      "meanings": [
+        "book"
+      ],
+      "examples": [
+        {
+          "ur": "میں روز ایک کتاب پڑھتا ہوں۔",
+          "roman": "main roz ek kitaab parhta hoon.",
+          "en": "I read a book every day."
+        }
+      ],
+      "forms": [
+        {
+          "ur": "کتابیں",
+          "roman": "kitaaben",
+          "note": "books (plural)"
+        }
+      ]
+    },
+    {
+      "ur": "دینا",
+      "roman": "dena",
+      "pos": "verb",
+      "meanings": [
+        "to give"
+      ],
+      "forms": [
+        {
+          "ur": "دی",
+          "roman": "di",
+          "note": "gave (feminine)"
+        },
+        {
+          "ur": "دیا",
+          "roman": "diya",
+          "note": "gave (masculine)"
+        }
+      ]
+    },
+    {
+      "ur": "جو",
+      "roman": "jo",
+      "pos": "pronoun",
+      "meanings": [
+        "who",
+        "which",
+        "that"
+      ]
+    },
+    {
+      "ur": "دادا",
+      "roman": "daada",
+      "pos": "noun (m)",
+      "meanings": [
+        "grandfather (father's father)"
+      ]
+    },
+    {
+      "ur": "صفحہ",
+      "roman": "safha",
+      "pos": "noun (m)",
+      "meanings": [
+        "page"
+      ],
+      "forms": [
+        {
+          "ur": "صفحے",
+          "roman": "safhe",
+          "note": "pages (plural)"
+        }
+      ]
+    },
+    {
+      "ur": "پیلا",
+      "roman": "peela",
+      "pos": "adjective",
+      "meanings": [
+        "yellow"
+      ],
+      "forms": [
+        {
+          "ur": "پیلے",
+          "roman": "peele",
+          "note": "yellow (plural)"
+        },
+        {
+          "ur": "پیلی",
+          "roman": "peeli",
+          "note": "yellow (feminine)"
+        }
+      ]
+    },
+    {
+      "ur": "چکنا",
+      "roman": "chukna",
+      "pos": "verb",
+      "meanings": [
+        "(after a verb) already, to have finished"
+      ],
+      "forms": [
+        {
+          "ur": "چکے",
+          "roman": "chuke"
+        },
+        {
+          "ur": "چکا",
+          "roman": "chuka"
+        }
+      ]
+    },
+    {
+      "ur": "لیکن",
+      "roman": "lekin",
+      "pos": "conjunction",
+      "meanings": [
+        "but"
+      ]
+    },
+    {
+      "ur": "اب",
+      "roman": "ab",
+      "pos": "adverb",
+      "meanings": [
+        "now"
+      ]
+    },
+    {
+      "ur": "صاف",
+      "roman": "saaf",
+      "pos": "adjective",
+      "meanings": [
+        "clean",
+        "clear"
+      ],
+      "examples": [
+        {
+          "ur": "پانی بالکل صاف ہے۔",
+          "roman": "paani bilkul saaf hai.",
+          "en": "The water is perfectly clean."
+        }
+      ]
+    },
+    {
+      "ur": "پڑھنا",
+      "roman": "parhna",
+      "pos": "verb",
+      "meanings": [
+        "to read",
+        "to study"
+      ],
+      "forms": [
+        {
+          "ur": "پڑھے",
+          "roman": "parhe"
+        }
+      ]
+    },
+    {
+      "ur": "سکنا",
+      "roman": "sakna",
+      "pos": "verb",
+      "meanings": [
+        "(after a verb) can, to be able to"
+      ],
+      "forms": [
+        {
+          "ur": "سکتے",
+          "roman": "sakte"
+        },
+        {
+          "ur": "سکتا",
+          "roman": "sakta"
+        }
+      ]
+    }
+  ]
+}
