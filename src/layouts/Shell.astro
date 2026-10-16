@@ -54,7 +54,7 @@ const total = await getTotalCount();
     <a class="skip" href="#main">Skip to content</a>
     <TopBar about={page === 'about'} total={total} />
     <Rail current={coll} onPage={page === 'collection'} home={page === 'home'} />
-    <Card {...card} />
+    <Card {...card}><slot name="card" slot="card" /></Card>
     <main class="main" id="main" tabindex="-1">
       <slot />
     </main>

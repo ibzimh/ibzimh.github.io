@@ -1,0 +1,26 @@
+---
+// One row per kind of feature. Hidden until map.ts runs (the buttons do nothing without it).
+import { featureGroups, type Feature } from './load';
+
+interface Props {
+  first: Feature;
+}
+const { first } = Astro.props;
+---
+
+<div class="dm-picks" hidden>
+  {
+    featureGroups.map(({ kind, features }) => (
+      <div class="dm-pick" role="group" aria-labelledby={`dm-k-${kind.id}`}>
+        <span class="lab" id={`dm-k-${kind.id}`}>{kind.plural}</span>
+        <div class="btns">
+          {features.map((f) => (
+            <button type="button" data-f={f.id} aria-pressed={f.id === first.id}>
+              <span class="tx">{f.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>

@@ -1,0 +1,55 @@
+- id: cot-caught
+  name: cot–caught merger
+  also: LOT–THOUGHT merger
+  kind: merger
+  examples: [cot / caught, Don / dawn, stock / stalk]
+  about: Whether "cot" and "caught" sound the same. Where they have merged, both words are said with one vowel.
+
+- id: pin-pen
+  name: pin–pen merger
+  also: merger before n and m
+  kind: merger
+  examples: [pin / pen, tin / ten, him / hem]
+  about: Whether "pin" and "pen" sound the same. It happens before the sounds n and m, so "pin" and "pen" match but "pit" and "pet" stay apart.
+
+- id: mary-marry-merry
+  name: Mary–marry–merry merger
+  also: merger before r
+  kind: merger
+  examples: [Mary / marry / merry]
+  about: Whether "Mary", "marry" and "merry" sound the same. Where they have merged, all three are said alike.
+
+- id: horse-hoarse
+  name: horse–hoarse merger
+  also: NORTH–FORCE merger
+  kind: merger
+  examples: [horse / hoarse, for / four, morning / mourning]
+  about: Whether "horse" and "hoarse" sound the same. Where they have merged, both are said with the same vowel.
+
+- id: northern-cities
+  name: Northern Cities Shift
+  also: NCS
+  kind: shift
+  examples: ['"bat" glides toward "bee-at"', '"bus" sounds closer to "boss"']
+  about: A chain of vowel changes around the Great Lakes. Several vowels have moved so that, for example, "bat" and "bus" sound different from elsewhere.
+
+- id: southern-shift
+  name: Southern Shift
+  also: Southern Vowel Shift
+  kind: shift
+  examples: ['"ride" with no glide', '"bed" with a glide']
+  about: A set of vowel changes heard in the South. Some vowels lose their glide and others gain one.
+
+- id: canadian-raising
+  name: Canadian raising
+  also: PRICE and MOUTH raising
+  kind: sound
+  examples: [writer / rider, lout / loud]
+  about: The vowel in "price" and "mouth" starts higher in the mouth before sounds like t and p. So "writer" and "rider" sound different.
+
+- id: dropping-r
+  name: dropping r
+  also: non-rhoticity
+  kind: sound
+  examples: [car, park, water]
+  about: Leaving out the r sound after a vowel, so "car" sounds like "cah". Where people say the r, the place is rhotic.

@@ -1,0 +1,31 @@
+id,name,region,country,lat,lon
+anchorage-ak,Anchorage,AK,US,61.22,-149.90
+atlanta-ga,Atlanta,GA,US,33.75,-84.39
+baltimore-md,Baltimore,MD,US,39.29,-76.61
+boston-ma,Boston,MA,US,42.36,-71.06
+buffalo-ny,Buffalo,NY,US,42.89,-78.88
+charlotte-nc,Charlotte,NC,US,35.23,-80.84
+chicago-il,Chicago,IL,US,41.88,-87.63
+cleveland-oh,Cleveland,OH,US,41.50,-81.69
+dallas-tx,Dallas,TX,US,32.78,-96.80
+denver-co,Denver,CO,US,39.74,-104.99
+detroit-mi,Detroit,MI,US,42.33,-83.05
+honolulu-hi,Honolulu,HI,US,21.31,-157.86
+houston-tx,Houston,TX,US,29.76,-95.37
+kansas-city-mo,Kansas City,MO,US,39.10,-94.58
+las-vegas-nv,Las Vegas,NV,US,36.17,-115.14
+los-angeles-ca,Los Angeles,CA,US,34.05,-118.24
+miami-fl,Miami,FL,US,25.76,-80.19
+minneapolis-mn,Minneapolis,MN,US,44.98,-93.27
+nashville-tn,Nashville,TN,US,36.16,-86.78
+new-orleans-la,New Orleans,LA,US,29.95,-90.07
+new-york-ny,New York,NY,US,40.71,-74.01
+philadelphia-pa,Philadelphia,PA,US,39.95,-75.17
+phoenix-az,Phoenix,AZ,US,33.45,-112.07
+pittsburgh-pa,Pittsburgh,PA,US,40.44,-80.00
+portland-or,Portland,OR,US,45.52,-122.68
+providence-ri,Providence,RI,US,41.82,-71.41
+salt-lake-city-ut,Salt Lake City,UT,US,40.76,-111.89
+san-francisco-ca,San Francisco,CA,US,37.77,-122.42
+seattle-wa,Seattle,WA,US,47.61,-122.33
+washington-dc,Washington,DC,US,38.91,-77.04

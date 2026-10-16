@@ -8,6 +8,8 @@ import { sketches } from '../lib/sketches';
 type Props = CardProps;
 const { state, shelves = [], cur, previews = false, links = [], toc = [], nav } = Astro.props;
 const chars = [...state.num];
+// a filled `card` slot replaces the foot (an unfilled forwarded slot renders as nothing)
+const custom = Astro.slots.has('card') ? (await Astro.slots.render('card')).trim() : '';
 const hasFoot = !!(previews || state.title || state.meta || state.line || links.length || toc.length);
 ---
 
@@ -21,7 +23,7 @@ const hasFoot = !!(previews || state.title || state.meta || state.line || links.
   </div>
   <div class="card-bot">
     <div class="sketch-wrap">{state.sketch && <Sketch kind={state.sketch} />}</div>
-    {hasFoot && <div class="card-foot">
+    {custom ? <Fragment set:html={custom} /> : hasFoot && <div class="card-foot">
       <h2 class="card-title">{state.title}</h2>
       <p class="card-meta">{state.meta}</p>
       <p class="card-line">{state.line}</p>

@@ -36,6 +36,7 @@ const state = { ...itemState(item, positionLabel(item.collection, index, total))
     nav: { prev: link(prev), next: link(next) },
   }}
 >
+  <slot name="card" slot="card" />
   <div class="col">
     <h1 class="sr">{item.title}</h1>
     <slot />
