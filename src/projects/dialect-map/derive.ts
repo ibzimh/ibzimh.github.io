@@ -1,5 +1,7 @@
 // Everything computed from checked data: cells, counts, lookups. Pure; nothing here reads files.
 import type { DotSymbol } from './config';
+import type { AreaOverlap } from './geo/relations';
+import type { BuiltArea } from './geo/areas';
 import type { Accent, Area, Cell, Feature, Finding, GlossaryEntry, Geo, OldIds, Place, Source, Subject } from './types';
 
 export interface Data {
@@ -14,6 +16,9 @@ export interface Data {
   usingSamples: boolean;
   oldIds: OldIds;
   geo: Geo;
+  built: Record<string, BuiltArea[]>;
+  contains: Record<string, string[]>;
+  overlaps: Record<string, AreaOverlap[]>;
 }
 
 export function derive(d: Data) {
@@ -136,9 +141,17 @@ export function derive(d: Data) {
       return c.shown ? [{ feature, cell: c }] : [];
     });
 
-  /** Areas that contain a dot, from geo.contains. */
-  const areasOfDot = (dotId: string): Area[] =>
-    Object.entries(d.geo.contains ?? {}).flatMap(([areaId, dots]) => (dots.includes(dotId) && d.areas.has(areaId) ? [d.areas.get(areaId)!] : []));
+  // dot id -> ids of the areas that contain it, in area order
+  const inAreas = new Map<string, string[]>();
+  for (const areaId of d.areas.keys()) for (const dot of d.contains[areaId] ?? []) inAreas.set(dot, [...(inAreas.get(dot) ?? []), areaId]);
+
+  /** Areas that contain a dot. */
+  const areasOfDot = (dotId: string): Area[] => (inAreas.get(dotId) ?? []).map((id) => d.areas.get(id)!);
+
+  /** The built shapes on a plate, for drawing. */
+  const builtAreas = (plateId: string): BuiltArea[] => d.built[plateId] ?? [];
+  /** Pairs of areas on a plate that overlap or sit inside each other. */
+  const areaOverlaps = (plateId: string): AreaOverlap[] => d.overlaps[plateId] ?? [];
 
   /** Accents whose core or wider names the dot or an area containing it. */
   const accentsAtDot = (dotId: string) => {
@@ -170,6 +183,6 @@ export function derive(d: Data) {
     placeById: d.places, featureById: d.sounds, areaById: d.areas, accentById: d.accents, sourceById: d.sources,
     oldIds: d.oldIds,
     cell, placeCell, symbolOf, counts, countsByPlate, featurePlates, featureSources, differCount, recent, sourceStats, stats,
-    accentProfile, areasOfDot, accentsAtDot, drafts, coverage, nameOf,
+    accentProfile, areasOfDot, accentsAtDot, drafts, coverage, nameOf, builtAreas, areaOverlaps,
   };
 }

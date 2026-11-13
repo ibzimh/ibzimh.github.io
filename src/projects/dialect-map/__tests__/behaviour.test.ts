@@ -1,6 +1,8 @@
 // What the data layer does with valid data: drafts, samples, old ids, comments, derived values.
 import { describe, expect, it } from 'vitest';
+import { baseMap } from '../basemap';
 import { parseCsv } from '../csv';
+import { defaultGeo } from '../geo-port';
 import { build, edit, f, fail, valid, with_ } from './fixture';
 
 const head = 'place,accent,feature,value,source,page,added,checked,mode,ages,who,note\n';
@@ -184,5 +186,89 @@ describe('derived data', () => {
   });
   it('glossary loads', () => {
     expect(b.glossary).toEqual([{ term: 'merger', also: ['merge'], plain: 'Two sounds that became one.' }]);
+  });
+});
+
+describe('real map shapes', () => {
+  const places = `id,name,region,country,lat,lon
+pittsburgh-pa,Pittsburgh,PA,US,40.44,-79.99
+columbus-oh,Columbus,OH,US,39.96,-83.0
+boston-ma,Boston,MA,US,42.36,-71.06
+leeds-eng,Leeds,ENG,GB,53.8,-1.55
+dublin-ie,Dublin,IE,IE,53.35,-6.26
+`;
+  const quad = (pts: number[][]) => JSON.stringify({ type: 'Polygon', coordinates: [[...pts, pts[0]]] });
+  const areas = `
+- id: pa-oh
+  name: Pennsylvania and Ohio
+  country: US
+  units: {set: us-states, ids: [PA, OH]}
+- id: near-pitt
+  name: Near Pittsburgh
+  country: US
+  around: {place: pittsburgh-pa, km: 60}
+- id: pa-oh-and-more
+  name: Both together
+  country: US
+  of: [pa-oh, indiana-box]
+- id: indiana-box
+  name: Indiana box
+  country: US
+  drawn: box.geojson
+`;
+  const input = (areaText = areas, shape = quad([[-87, 38.5], [-85, 38.5], [-85, 41], [-87, 41]])) => ({
+    ...valid(), places: [f('places/p.csv', places)], areas: [f('areas/a.yaml', areaText)], shapes: [f('areas/shapes/box.geojson', shape)],
+    accents: [], findings: [f('findings/f.csv', 'place,accent,feature,value,source,page,added,checked,mode,ages,who,note\n')],
+  });
+  const real = (i = input()) => build(i, { geo: defaultGeo });
+
+  it('builds one area of each kind with paths and containment', () => {
+    const b = real();
+    const built = b.builtAreas('us');
+    expect(built.map((a) => a.id).sort()).toEqual(['indiana-box', 'near-pitt', 'pa-oh', 'pa-oh-and-more']);
+    for (const a of built) expect(a.path.length, a.id).toBeGreaterThan(20);
+    expect(b.areasOfDot('pittsburgh-pa').map((a) => a.id).sort()).toEqual(['near-pitt', 'pa-oh', 'pa-oh-and-more']);
+    expect(b.areasOfDot('columbus-oh').map((a) => a.id)).toEqual(['pa-oh', 'pa-oh-and-more']);
+    expect(b.areasOfDot('boston-ma')).toEqual([]);
+    expect(b.areaOverlaps('us').length).toBeGreaterThan(0);
+    expect(b.builtAreas('britain-ireland')).toEqual([]);
+  });
+  it('a wrong unit id fails with a did-you-mean', () => {
+    const msg = fail(input(areas.replace('[PA, OH]', '[PA, OHH]')), { geo: defaultGeo });
+    expect(msg).toContain('area pa-oh');
+    expect(msg).toContain('Unknown unit "OHH"');
+    expect(msg).toContain('Did you mean "OH"?');
+  });
+  it('a drawn shape in the sea fails with a clear message', () => {
+    const msg = fail(input(areas, quad([[-60, 30], [-58, 30], [-58, 32], [-60, 32]])), { geo: defaultGeo });
+    expect(msg).toContain('area indiana-box');
+    expect(msg).toMatch(/outside the United States map|entirely over the sea/);
+  });
+  it('puts Britain and Ireland dots on their plate', () => {
+    const b = real();
+    for (const id of ['leeds-eng', 'dublin-ie']) {
+      const p = b.placeById.get(id)!;
+      expect(p.plate, id).toBe('britain-ireland');
+      expect(p.x, id).toBeGreaterThan(0);
+      expect(p.x, id).toBeLessThan(100);
+      expect(p.y, id).toBeGreaterThan(0);
+      expect(p.y, id).toBeLessThan(100);
+    }
+  });
+  it('US dots match the old basemap within 0.05 percent', () => {
+    const csv = Object.values(import.meta.glob<string>('../data/places/us.csv', { query: '?raw', import: 'default', eager: true }))[0];
+    const rows = parseCsv(csv).slice(1);
+    expect(rows.length).toBeGreaterThan(10);
+    const old = baseMap('us');
+    for (const r of rows) {
+      const [id, , , , lat, lon] = r.cells;
+      const a = defaultGeo.project('us', Number(lat), Number(lon)), b = old.project(Number(lat), Number(lon));
+      expect(a, id).not.toBeNull();
+      expect(Math.abs(a!.x - b!.x), id).toBeLessThanOrEqual(0.05);
+      expect(Math.abs(a!.y - b!.y), id).toBeLessThanOrEqual(0.05);
+    }
+  });
+  it('a country with no plate is still null', () => {
+    expect(defaultGeo.plateForCountry('FR')).toBeNull();
   });
 });

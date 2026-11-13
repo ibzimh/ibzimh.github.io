@@ -8,10 +8,34 @@ import { checkPlaces } from './check-places';
 import { checkSounds } from './check-sounds';
 import { checkSources, sampleSources } from './check-sources';
 import { derive, type Data } from './derive';
-import { defaultGeo } from './geo';
+import { defaultGeo } from './geo-port';
 import { buildIndex } from './ids';
 import { newCtx } from './parse';
-import type { BuildOpts, RawInput } from './types';
+import type { AreaDef } from './geo/areas';
+import type { Area, AreasResult, BuildOpts, Place, RawInput } from './types';
+
+/** One Polygon/MultiPolygon out of a parsed GeoJSON file (geometry, feature or collection). */
+function geometryOf(json: unknown): AreaDef['drawn'] {
+  const j = json as { type?: string; features?: { geometry: unknown }[]; geometry?: unknown; coordinates?: unknown };
+  const geoms = (j.type === 'FeatureCollection' ? (j.features ?? []).map((f) => f.geometry) : j.type === 'Feature' ? [j.geometry] : [j]) as { type: string; coordinates: never }[];
+  const polys = geoms.flatMap((g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates as never[]));
+  return geoms.length === 1 && geoms[0].type === 'Polygon' ? (geoms[0] as never) : ({ type: 'MultiPolygon', coordinates: polys } as never);
+}
+
+function areaDef(a: Area, places: Map<string, Place>): AreaDef {
+  const def: AreaDef = { id: a.id, name: a.name, country: a.country, edge: a.edge };
+  const m = a.made;
+  if (m.kind === 'units') def.units = { set: m.set, ids: m.ids };
+  else if (m.kind === 'drawn') def.drawn = geometryOf(a.shape);
+  else if (m.kind === 'around') {
+    const p = places.get(m.place)!;
+    def.around = { lat: p.lat, lon: p.lon, km: m.km };
+  } else {
+    def.of = m.of;
+    if (m.minus.length) def.minus = m.minus;
+  }
+  return def;
+}
 
 const ids = <T extends { id: string; was: string[] }>(m: Map<string, T>) => [...m.values()].map(({ id, was }) => ({ id, was }));
 
@@ -32,6 +56,18 @@ export function buildData(input: RawInput, opts: BuildOpts) {
   const index = buildIndex(ctx, { sound: ids(sounds), place: ids(places), area: ids(areas), accent: ids(accents) });
   linkAreas(ctx, areas, index);
   linkAccents(ctx, accents, index);
+  let shapes: AreasResult = { problems: [], built: {}, contains: {}, overlaps: {} };
+  // shapes can only be built once every area and place reference is sound
+  if (geo.areas && !ctx.problems.length) {
+    const dots = [...places.values()].map(({ id, lat, lon }) => ({ id, lat, lon }));
+    shapes = geo.areas([...areas.values()].map((a) => areaDef(a, places)), dots);
+    const files = new Map([...areas.values()].map((a) => [a.id, a]));
+    for (const m of shapes.problems) {
+      const hit = /^Area "([^"]+)": ([\s\S]*)$/.exec(m);
+      if (hit && files.has(hit[1])) ctx.problem(`area ${hit[1]}`, hit[2]);
+      else ctx.problem('areas', m);
+    }
+  }
   const glossary = checkGlossary(ctx, input.glossary);
 
   const rows = usingSamples ? sample.findings : input.findings;
@@ -49,7 +85,7 @@ export function buildData(input: RawInput, opts: BuildOpts) {
 
   const data: Data = {
     sources, realSourceCount: realSources.size, sounds, places, areas, accents, findings, glossary, usingSamples,
-    oldIds: index.old, geo,
+    oldIds: index.old, geo, built: shapes.built, contains: shapes.contains, overlaps: shapes.overlaps,
   };
   return { ...derive(data), warnings: ctx.warnings };
 }

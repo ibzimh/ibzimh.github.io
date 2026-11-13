@@ -8,6 +8,7 @@
  *   cell({type, id}, featureId), placeCell(placeId, featureId), symbolOf(placeId, featureId)
  *   counts(featureId), countsByPlate(featureId), featurePlates(featureId), featureSources, differCount
  *   accentProfile(accentId), areasOfDot(dotId), accentsAtDot(dotId), coverage(), drafts()
+ *   builtAreas(plateId), areaOverlaps(plateId): area shapes and overlaps on a plate
  *   recent(n), sourceStats, stats, nameOf(subject)
  * For the old page: legend(feature), featureGroups, legacyValue(feature, value) give the old wording.
  * Any problem in any file throws one Error listing all of them.
@@ -23,7 +24,7 @@ export const {
   places, mapPlaces, features, areas, accents, sources, findings, glossary, usingSamples,
   placeById, featureById, areaById, accentById, sourceById, oldIds,
   cell, placeCell, symbolOf, counts, countsByPlate, featurePlates, featureSources, differCount,
-  accentProfile, areasOfDot, accentsAtDot, coverage, drafts, recent, sourceStats, stats, nameOf,
+  accentProfile, areasOfDot, accentsAtDot, builtAreas, areaOverlaps, coverage, drafts, recent, sourceStats, stats, nameOf,
 } = data;
 
 export const featureGroups = legacyGroups(features);

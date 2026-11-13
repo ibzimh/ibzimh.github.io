@@ -1,5 +1,7 @@
 // Shapes of the checked data. Build time only.
 import type { DotSymbol, Mode, ScaleId } from './config';
+import type { AreaDef, BuiltArea } from './geo/areas';
+import type { AreaOverlap } from './geo/relations';
 
 export interface DataFile {
   file: string; // path under data/, used in messages
@@ -142,8 +144,16 @@ export interface Geo {
   plateForCountry(country: string): string | null;
   /** Position as percent of the plate box, or null if the point is off the plate. */
   project(plateId: string, lat: number, lon: number): { x: number; y: number } | null;
-  /** Dot ids inside each area, by area id. */
-  contains?: Record<string, string[]>;
+  /** Builds the shapes of areas and finds which dots fall inside them. Left out: no shapes, nothing contained. */
+  areas?(defs: AreaDef[], dots: { id: string; lat: number; lon: number }[]): AreasResult;
+}
+
+export interface AreasResult {
+  /** Plain-English problems, each starting `Area "id": ` when about one area. */
+  problems: string[];
+  built: Record<string, BuiltArea[]>; // by plate id
+  contains: Record<string, string[]>; // dot ids, by area id
+  overlaps: Record<string, AreaOverlap[]>; // by plate id
 }
 
 export interface RawInput {

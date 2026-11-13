@@ -5,7 +5,7 @@ import type { BuildOpts, DataFile, Geo, RawInput } from '../types';
 export const geo: Geo = {
   plateForCountry: (c) => (c === 'US' ? 'us' : null),
   project: (plate) => (plate === 'us' ? { x: 50, y: 50 } : null),
-  contains: { 'north-of-england': ['leeds-eng', 'liverpool-eng'] },
+  areas: () => ({ problems: [], built: {}, contains: { 'north-of-england': ['leeds-eng', 'liverpool-eng'] }, overlaps: {} }),
 };
 
 export const f = (file: string, text: string): DataFile => ({ file, text });
