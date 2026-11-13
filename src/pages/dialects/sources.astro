@@ -1,0 +1,44 @@
+---
+import AtlasLayout from '../../layouts/AtlasLayout.astro';
+import { rowLabel } from '../../projects/dialect-map/atlas-words';
+import { toAtlasSound } from '../../projects/dialect-map/atlas';
+import { featureById, sourceStats, usingSamples } from '../../projects/dialect-map/load';
+
+const years = ([a, b]: [number, number]) => (a === b ? `${a}` : `${a} to ${b}`);
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+---
+
+<AtlasLayout title="Sources" description="Where every finding in the dialect atlas comes from: the books and studies, when their data was collected, and how." kind="doc">
+  <main class="doc">
+    <h1>Sources</h1>
+    <p class="lede">Every finding on the map comes from one of these. {usingSamples && ' The ones below are made up, to show how the page works.'}</p>
+    <ol class="sources">
+      {
+        sourceStats.map(({ source, findings, features, places }) => (
+          <li id={source.key}>
+            <h2>{source.short}</h2>
+            <dl>
+              <dt>Reference</dt>
+              <dd>{source.citation}</dd>
+              <dt>Data collected</dt>
+              <dd>{years(source.data)}</dd>
+              {source.how && (<><dt>How</dt><dd>{source.how}</dd></>)}
+              {source.link && (<><dt>Link</dt><dd><a href={source.link} rel="noopener">{source.link}</a></dd></>)}
+              <dt>Used for</dt>
+              <dd>
+                {findings === 0 ? (
+                  <span class="mute">Nothing on the map yet.</span>
+                ) : (
+                  <>
+                    {plural(findings, 'finding')} about {plural(places, 'place')} and accents, on {plural(features.length, 'sound')}:{' '}
+                    <span class="mute">{features.map((f) => rowLabel(toAtlasSound(featureById.get(f)!))).join('; ')}</span>
+                  </>
+                )}
+              </dd>
+            </dl>
+          </li>
+        ))
+      }
+    </ol>
+  </main>
+</AtlasLayout>

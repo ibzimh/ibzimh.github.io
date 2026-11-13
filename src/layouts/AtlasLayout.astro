@@ -1,0 +1,81 @@
+---
+// The dialect atlas is a small site inside the site: its own header, no letter rail, no catalogue card.
+import hankenUrl from '@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url';
+import newsreaderUrl from '@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2?url';
+import '../projects/dialect-map/atlas.css';
+import { plate, plates, type PlateId } from '../projects/dialect-map/geo/plates';
+
+interface Props {
+  /** Page name; "Dialect atlas / Ibrahim Hasaan" is added after it. */
+  title: string;
+  description: string;
+  /** The plate being shown, on a map page. Doc pages (sources, about) leave it out. */
+  current?: PlateId;
+  kind: 'map' | 'doc';
+}
+const { title, description, current, kind } = Astro.props;
+const fullTitle = `${title} / Dialect atlas / Ibrahim Hasaan`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const pictures = [...plates].sort((a, b) => a.id.localeCompare(b.id)).map((p) => ({ id: p.id, name: p.name, w: p.width, h: p.height, sketch: plate(p.id).sketch }));
+const now = pictures.find((p) => p.id === current);
+const next = pictures.find((p) => p.id !== current);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ibrahim Hasaan" />
+    <meta name="theme-color" content="#f4f3ef" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="font" type="font/woff2" href={hankenUrl} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={newsreaderUrl} crossorigin />
+    <slot name="head" />
+  </head>
+  <body class={kind === 'map' ? 'map' : 'docs'} data-ph="peek">
+    <header id="top">
+      <a class="logo" href="/" aria-label="Ibrahim Hasaan, home">IH</a>
+      <a class="sitename" href="/dialects/">Dialect atlas</a>
+      <nav class="plates" aria-label="Map">
+        {
+          pictures.map((p) => (
+            <a href={`/dialects/${p.id}/`} data-plate={p.id} aria-current={p.id === current ? 'page' : undefined}>
+              <svg viewBox={`0 0 ${p.w} ${p.h}`} preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d={p.sketch} /></svg>
+              <span>{p.name}</span>
+            </a>
+          ))
+        }
+      </nav>
+      {
+        now && next && (
+          <a class="phoneplate" href={`/dialects/${next.id}/`} data-plate={next.id} aria-label={`Change map, now ${now.name}`}>
+            <svg viewBox={`0 0 ${now.w} ${now.h}`} preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d={now.sketch} /></svg>
+            <span>{now.name}</span>
+          </a>
+        )
+      }
+      {
+        kind === 'map' && (
+          <div class="search">
+            <input id="q" type="search" placeholder="Search accents, sounds, places" autocomplete="off" aria-label="Search" />
+            <span class="slash" aria-hidden="true">/</span>
+            <div id="results" class="results" hidden />
+          </div>
+        )
+      }
+      <nav class="toplinks" aria-label="Atlas pages">
+        <a href="/dialects/sources/" aria-current={Astro.url.pathname === '/dialects/sources/' ? 'page' : undefined}>Sources</a>
+        <a href="/dialects/about/" aria-current={Astro.url.pathname === '/dialects/about/' ? 'page' : undefined}>About</a>
+      </nav>
+    </header>
+    <slot />
+  </body>
+</html>

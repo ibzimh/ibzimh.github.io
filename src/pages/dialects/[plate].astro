@@ -1,0 +1,92 @@
+---
+import type { GetStaticPaths } from 'astro';
+import AtlasLayout from '../../layouts/AtlasLayout.astro';
+import { firstView } from '../../projects/dialect-map/atlas-first';
+import { rowLabel, sym } from '../../projects/dialect-map/atlas-words';
+import { plates, type PlateId } from '../../projects/dialect-map/geo/plates';
+import { atlasData } from '../../projects/dialect-map/load';
+
+export const getStaticPaths = (() => plates.map((p) => ({ params: { plate: p.id }, props: { id: p.id as PlateId } }))) satisfies GetStaticPaths;
+
+const { id } = Astro.props as { id: PlateId };
+const atlas = atlasData(id);
+const { plate } = atlas;
+// roughly how many screen pixels one map unit is on first open, for sizing the names in the server-drawn map
+const k = Math.min(900 / plate.w, 780 / plate.h);
+const view = firstView(atlas, k);
+const groups = new Map<string, typeof atlas.accents>();
+for (const a of atlas.accents) groups.set(a.group || 'Other accents', [...(groups.get(a.group || 'Other accents') ?? []), a]);
+const sub = atlas.accents.length
+  ? `${atlas.accents.length} accents · ${atlas.dots.length} places. Pick one on the left, or click the map.`
+  : `${atlas.dots.length} places. No accents recorded here yet. Click a place on the map.`;
+// the normal land and borders are already drawn in the map below, so the data leaves them out
+const json = JSON.stringify({ ...atlas, plate: { ...plate, land: '', borders: '' } }).replace(/</g, '\\u003c');
+const description = `${plate.title}: pick an accent or a sound to see where it is heard. Every finding has a source.`;
+---
+
+<AtlasLayout title={plate.title} description={description} current={id} kind="map">
+  <main id="main">
+    <aside id="left" aria-label="Choose">
+      <button class="grab" type="button" aria-label="Resize panel"><span></span></button>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="accents">Accents</button>
+        <button role="tab" data-tab="sounds">Sounds</button>
+      </div>
+      <div class="filter"><input id="filter" type="text" placeholder="Filter" autocomplete="off" aria-label="Filter the list" /></div>
+      <div id="list" class="list">
+        <h3>Accents</h3>
+        {
+          atlas.accents.length === 0 ? (
+            <p class="none">No accents recorded on this map yet.</p>
+          ) : (
+            [...groups].map(([name, items]) => (
+              <>
+                <h3 class="q">{name}</h3>
+                <ul class="plain">
+                  {items.map((a) => (
+                    <li>
+                      {a.name} <span class="mute">{a.tie === 'social' ? 'Not tied to one place' : a.where}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ))
+          )
+        }
+        <h3>Sounds</h3>
+        <ul class="plain">{atlas.sounds.map((s) => <li>{rowLabel(s)}</li>)}</ul>
+      </div>
+      {atlas.sample && <p class="notice">Sample data. Made up to show how the atlas works.</p>}
+      <p class="phonelinks"><a href="/dialects/sources/">Sources</a><a href="/dialects/about/">About</a></p>
+    </aside>
+
+    <section id="mapwrap" aria-label="Map">
+      <svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${plate.w} ${plate.h}`} role="img" aria-label={plate.title}>
+        <path class="land" d={plate.land}></path>
+        <path class="bord" d={plate.borders}></path>
+        {view.outlines.map((d) => <path class="ol thin" d={d}></path>)}
+        {atlas.dots.map((p) => <circle class="s-grey" cx={p.x} cy={p.y} r={1.8 / k}></circle>)}
+        {view.labels.map((l) => <text class={l.cls} x={l.x} y={l.y} style={`font-size:${11 / k}px;stroke-width:${3 / k}px`}>{l.text}</text>)}
+      </svg>
+      <div id="maptitle" class="maptitle"><h1>{plate.title}</h1><p>{sub}</p></div>
+      <div id="key" class="key">
+        {atlas.accents.length > 0 && <div class="k"><span class="sw area"></span><span class="t">Where an accent is heard</span></div>}
+        <div class="k"><Fragment set:html={sym('none')} /><span class="t">Place</span></div>
+      </div>
+      <div class="scalebar" id="scalebar"></div>
+      <div class="zoom" role="group" aria-label="Zoom">
+        <button type="button" id="zin" aria-label="Zoom in">+</button>
+        <button type="button" id="zout" aria-label="Zoom out">&minus;</button>
+        <button type="button" id="zfit">Fit</button>
+      </div>
+    </section>
+
+    <aside id="sheet" aria-label="Details" hidden></aside>
+  </main>
+  <div id="tag" class="tag" hidden></div>
+  <script type="application/json" id="atlas-data" set:html={json}></script>
+</AtlasLayout>
+
+<script>
+  import '../../projects/dialect-map/atlas-client.js';
+</script>

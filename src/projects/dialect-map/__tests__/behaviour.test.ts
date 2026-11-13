@@ -1,6 +1,5 @@
 // What the data layer does with valid data: drafts, samples, old ids, comments, derived values.
 import { describe, expect, it } from 'vitest';
-import { baseMap } from '../basemap';
 import { parseCsv } from '../csv';
 import { defaultGeo } from '../geo-port';
 import { build, edit, f, fail, valid, with_ } from './fixture';
@@ -261,19 +260,6 @@ dublin-ie,Dublin,IE,IE,53.35,-6.26
       expect(p.x, id).toBeLessThan(100);
       expect(p.y, id).toBeGreaterThan(0);
       expect(p.y, id).toBeLessThan(100);
-    }
-  });
-  it('US dots match the old basemap within 0.05 percent', () => {
-    const csv = Object.values(import.meta.glob<string>('../data/places/us.csv', { query: '?raw', import: 'default', eager: true }))[0];
-    const rows = parseCsv(csv).slice(1);
-    expect(rows.length).toBeGreaterThan(10);
-    const old = baseMap('us');
-    for (const r of rows) {
-      const [id, , , , lat, lon] = r.cells;
-      const a = defaultGeo.project('us', Number(lat), Number(lon)), b = old.project(Number(lat), Number(lon));
-      expect(a, id).not.toBeNull();
-      expect(Math.abs(a!.x - b!.x), id).toBeLessThanOrEqual(0.05);
-      expect(Math.abs(a!.y - b!.y), id).toBeLessThanOrEqual(0.05);
     }
   });
   it('a country with no plate is still null', () => {

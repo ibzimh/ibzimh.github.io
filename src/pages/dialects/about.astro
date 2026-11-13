@@ -1,0 +1,119 @@
+---
+import AtlasLayout from '../../layouts/AtlasLayout.astro';
+import { toAtlasSound } from '../../projects/dialect-map/atlas';
+import { notation, sym } from '../../projects/dialect-map/atlas-words';
+import credits from '../../projects/dialect-map/geo/data/credits.json';
+import { featureById, glossary, nameOf, recent, sourceById, usingSamples } from '../../projects/dialect-map/load';
+
+const creditLines = [...new Set(Object.values(credits).flatMap((c) => c.credits))];
+const added = recent(10).map((f) => {
+  const s = toAtlasSound(featureById.get(f.feature)!);
+  return { who: nameOf(f.subject), what: notation(s, f.value), source: sourceById.get(f.source)?.short ?? f.source, on: f.added, draft: f.draft };
+});
+
+// "means" rows: the real symbols with their meaning
+const dots = [
+  ['yes', 'Yes: this place says it. For cot and caught, the two sound the same.'],
+  ['mixed', 'For some: some speakers do, some do not, or the source says so.'],
+  ['nearly', 'Nearly: the two are almost the same, but not quite.'],
+  ['no', 'No: this place does not say it.'],
+  ['none', 'Nothing recorded: no source has looked. This is not the same as no.'],
+] as const;
+const options = [['opt0', 'First choice'], ['opt1', 'Second choice'], ['opt2', 'Third choice'], ['opt3', 'Fourth choice']] as const;
+---
+
+<AtlasLayout title="About" description="What the dialect atlas is, how to read the map, a glossary, the newest findings and the map credits." kind="doc">
+  <main class="doc">
+    <h1>About the atlas</h1>
+    <p class="lede">
+      The dialect atlas is a map of how English sounds in different places. Pick an accent to see where it is heard, or pick a sound, such as whether{' '}
+      <em>cot</em> and <em>caught</em> are said the same, to see which places say it. Every finding comes from a published book or study, and the{' '}
+      <a href="/dialects/sources/">Sources</a> page lists them all. Where nobody has looked, the map says nothing rather than guess.
+    </p>
+
+    <section>
+      <h2>How to read the map</h2>
+      <p class="sub">Red means a finding. Black means you are pointing at something.</p>
+      <h3>Places</h3>
+      <ul class="means">
+        {dots.map(([k, t]) => <li><Fragment set:html={sym(k)} /><span>{t}</span></li>)}
+      </ul>
+      <p class="sub">For a sound with several ways of saying it, each way gets its own shape.</p>
+      <ul class="means">
+        {options.map(([k, t]) => <li><Fragment set:html={sym(k)} /><span>{t}</span></li>)}
+      </ul>
+      <h3>Areas</h3>
+      <ul class="means">
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true"><rect x=".5" y=".5" width="27" height="15" fill="rgba(226,48,29,.14)" stroke="#141414" /></svg>
+          <span>A light red tint: the whole area says yes.</span>
+        </li>
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true">
+            <defs><pattern id="st" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#e2301d" stroke-width="1.3" /></pattern></defs>
+            <rect x=".5" y=".5" width="27" height="15" fill="url(#st)" stroke="#141414" />
+          </svg>
+          <span>Red stripes: for some people in the area.</span>
+        </li>
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true"><rect x=".5" y=".5" width="27" height="15" fill="none" stroke="#141414" /></svg>
+          <span>An outline with no fill: the area says no.</span>
+        </li>
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true">
+            <defs><clipPath id="tk"><rect x=".5" y=".5" width="27" height="15" /></clipPath></defs>
+            <rect x=".5" y=".5" width="27" height="15" fill="rgba(226,48,29,.14)" stroke="#141414" />
+            <rect x=".5" y=".5" width="27" height="15" fill="none" stroke="#e2301d" stroke-width="10" stroke-dasharray="1 6" clip-path="url(#tk)" />
+          </svg>
+          <span>Short red ticks along the inside of the edge: the area says yes.</span>
+        </li>
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true"><rect x="1" y="1" width="26" height="14" rx="6" fill="none" stroke="#141414" /></svg>
+          <span>A smooth loop is a rough area: where it stops is a guess. A sharp edge follows a real border, such as a county or a state.</span>
+        </li>
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true"><rect x=".5" y=".5" width="27" height="15" fill="rgba(226,48,29,.22)" stroke="#141414" /></svg>
+          <span>Picking an accent: the stronger tint is where it is strongest, the lighter tint is where it is also heard.</span>
+        </li>
+        <li>
+          <svg class="swatch" viewBox="0 0 28 16" aria-hidden="true"><rect x="1" y="1" width="26" height="14" fill="none" stroke="#141414" stroke-width="1.5" stroke-dasharray="1 4" stroke-linecap="round" /></svg>
+          <span>A dotted outline: an accent tied to a group of people, not to one place.</span>
+        </li>
+      </ul>
+      <p class="sub">Grey names are cities. Dark names are accents and areas. Zoom in with the wheel, a pinch or the buttons, and drag to move.</p>
+    </section>
+
+    <section>
+      <h2>Words used</h2>
+      <dl class="gloss">
+        {glossary.map((g) => <><dt>{g.term}</dt><dd>{g.plain}</dd></>)}
+      </dl>
+    </section>
+
+    <section>
+      <h2>Recently added</h2>
+      {
+        added.length === 0 ? (
+          <p class="mute">Nothing added yet.</p>
+        ) : (
+          <ul class="recent">
+            {added.map((r) => (
+              <li>
+                <span class="t">{r.who}: {r.what}</span>
+                <span class="n">{r.source}{r.draft && ' · draft'} · {r.on}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      {usingSamples && <p class="mute">Sample data. Made up to show how the atlas works.</p>}
+    </section>
+
+    <section>
+      <h2>Map credits</h2>
+      <ul class="credits">
+        {creditLines.map((c) => <li>{c}</li>)}
+      </ul>
+    </section>
+  </main>
+</AtlasLayout>

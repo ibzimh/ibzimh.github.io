@@ -1,0 +1,22 @@
+---
+import AtlasLayout from '../../layouts/AtlasLayout.astro';
+---
+
+<AtlasLayout title="Maps" description="A map of English accents in the United States, Britain and Ireland." kind="doc">
+  <script is:inline slot="head">
+    try {
+      var p = localStorage.getItem('dialects-plate');
+      location.replace(p === 'britain-ireland' ? '/dialects/britain-ireland/' : '/dialects/us/');
+    } catch (e) {
+      location.replace('/dialects/us/');
+    }
+  </script>
+  <main class="doc">
+    <h1>Dialect atlas</h1>
+    <p>Pick a map:</p>
+    <ul class="plain">
+      <li><a href="/dialects/us/">United States</a></li>
+      <li><a href="/dialects/britain-ireland/">Britain &amp; Ireland</a></li>
+    </ul>
+  </main>
+</AtlasLayout>

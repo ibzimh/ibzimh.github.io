@@ -10,11 +10,12 @@
  *   accentProfile(accentId), areasOfDot(dotId), accentsAtDot(dotId), coverage(), drafts()
  *   builtAreas(plateId), areaOverlaps(plateId): area shapes and overlaps on a plate
  *   recent(n), sourceStats, stats, nameOf(subject)
- * For the old page: legend(feature), featureGroups, legacyValue(feature, value) give the old wording.
+ * atlasData(plateId): the one small object a plate's page sends to the browser (atlas.ts).
  * Any problem in any file throws one Error listing all of them.
  */
 import { buildData } from './build';
-import { legacyGroups, legacyLegend } from './legacy';
+import { buildAtlas, type Atlas } from './atlas';
+import type { PlateId } from './geo/plates';
 import { isDev, readInput, today } from './read';
 
 const data = buildData(readInput(), { dev: isDev, today: today() });
@@ -27,8 +28,11 @@ export const {
   accentProfile, areasOfDot, accentsAtDot, builtAreas, areaOverlaps, coverage, drafts, recent, sourceStats, stats, nameOf,
 } = data;
 
-export const featureGroups = legacyGroups(features);
-export const legend = legacyLegend;
-export { legacyValue } from './legacy';
+const atlases = new Map<string, Atlas>();
+export const atlasData = (plateId: PlateId): Atlas => {
+  let a = atlases.get(plateId);
+  if (!a) atlases.set(plateId, (a = buildAtlas(data, plateId)));
+  return a;
+};
 export { pageText } from './parse';
 export type { Accent, Area, Cell, Feature, Finding, GlossaryEntry, Place, Source, Subject } from './types';
