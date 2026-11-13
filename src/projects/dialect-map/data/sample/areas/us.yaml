@@ -1,0 +1,41 @@
+# Sample areas for the US: made up, loaded only in dev. Same format as ../../areas/areas.yaml.
+
+- id: pennsylvania
+  name: Pennsylvania
+  country: US
+  units: {set: us-states, ids: [PA]}
+
+- id: new-york-city
+  name: New York City
+  country: US
+  around: {place: new-york-ny, km: 24}
+
+- id: inland-north
+  name: Inland North
+  country: US
+  drawn: inland-north.geojson
+
+- id: the-south
+  name: The South
+  country: US
+  drawn: the-south.geojson
+
+- id: midland
+  name: Midland
+  country: US
+  drawn: midland.geojson
+
+- id: the-west
+  name: The West
+  country: US
+  drawn: the-west.geojson
+
+- id: eastern-new-england
+  name: Eastern New England
+  country: US
+  drawn: eastern-new-england.geojson
+
+- id: western-pennsylvania
+  name: Western Pennsylvania
+  country: US
+  drawn: western-pennsylvania.geojson

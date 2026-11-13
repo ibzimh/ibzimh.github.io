@@ -73,6 +73,14 @@ describe('samples', () => {
     expect(b.accentById.has('sample-accent')).toBe(false);
     expect([...b.sourceById.keys()]).toEqual(['s1', 's2']);
   });
+  it('read drawn shapes from sample/areas/shapes, only together with sample areas', () => {
+    const tri = '{"type":"Polygon","coordinates":[[[-80,40],[-79,40],[-79,41],[-80,40]]]}';
+    const drawn = { ...sample, areas: [f('sample/areas/d.yaml', '- id: sample-drawn\n  name: D\n  country: US\n  drawn: tri.geojson\n')], shapes: [f('sample/areas/shapes/tri.geojson', tri)] };
+    const b = build({ ...empty(), sample: drawn }, { dev: true });
+    expect(b.areaById.get('sample-drawn')?.shape).toBeTruthy();
+    expect(() => build({ ...empty(), sample: { ...drawn, shapes: [] } }, { dev: true })).toThrow(/tri\.geojson/);
+    expect(build({ ...empty(), sample: drawn }).areaById.has('sample-drawn')).toBe(false);
+  });
   it('are not used in dev once the real findings have a row', () => {
     const b = build({ ...valid(), sample }, { dev: true });
     expect(b.usingSamples).toBe(false);

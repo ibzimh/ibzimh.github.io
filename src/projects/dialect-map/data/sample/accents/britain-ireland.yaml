@@ -1,0 +1,212 @@
+# Sample accents for Britain and Ireland: made up, loaded only in dev. Same format as ../../accents/accents.yaml.
+
+- id: scouse
+  name: "Scouse"
+  country: GB
+  tie: place
+  where: "Liverpool and the area around it"
+  core: ["liverpool-eng"]
+  wider: ["merseyside"]
+  also: ["Liverpool English"]
+  group: "North of England"
+  listen:
+    - {label: "Sample recording", url: https://example.com/sample-scouse}
+
+- id: geordie
+  name: "Geordie"
+  country: GB
+  tie: place
+  where: "Newcastle and the Tyne"
+  core: ["newcastle-upon-tyne-eng"]
+  wider: ["north-east"]
+  also: ["Tyneside English"]
+  group: "North of England"
+
+- id: mackem
+  name: "Mackem"
+  country: GB
+  tie: place
+  where: "Sunderland and the Wear"
+  core: ["sunderland-eng"]
+  also: ["Wearside English"]
+  group: "North of England"
+  parent: geordie
+
+- id: mancunian
+  name: "Mancunian"
+  country: GB
+  tie: place
+  where: "Manchester and nearby towns"
+  core: ["manchester-eng"]
+  wider: ["lancashire"]
+  also: ["Manchester English"]
+  group: "North of England"
+  parent: lancashire
+
+- id: yorkshire
+  name: "Yorkshire"
+  country: GB
+  tie: place
+  where: "The old county of Yorkshire"
+  core: ["leeds-eng", "sheffield-eng"]
+  wider: ["yorkshire"]
+  also: ["Yorkshire English"]
+  group: "North of England"
+
+- id: lancashire
+  name: "Lancashire"
+  country: GB
+  tie: place
+  where: "The old county of Lancashire"
+  core: ["lancaster-eng"]
+  wider: ["lancashire"]
+  also: ["Lancashire English"]
+  group: "North of England"
+
+- id: humber
+  name: "Humber (sample)"
+  country: GB
+  tie: place
+  where: "Three separate towns in the north east of England"
+  core: ["hull-eng", "york-eng", "middlesbrough-eng"]
+  also: ["invented for the sample"]
+  group: "North of England"
+
+- id: brummie
+  name: "Brummie"
+  country: GB
+  tie: place
+  where: "Birmingham and the West Midlands"
+  core: ["birmingham-eng"]
+  wider: ["west-midlands"]
+  also: ["Birmingham English"]
+  group: "Midlands"
+
+- id: cockney
+  name: "Cockney"
+  country: GB
+  tie: place
+  where: "The East End of London"
+  wider: ["east-end"]
+  also: ["traditional London speech"]
+  group: "London and the South East"
+  about: "A sample entry with a core of nothing and a wider area only."
+
+- id: estuary
+  name: "Estuary English"
+  country: GB
+  tie: place
+  where: "London and the counties around it"
+  wider: ["home-counties", "london"]
+  also: ["Thames Estuary English"]
+  group: "London and the South East"
+
+- id: east-anglian
+  name: "East Anglian"
+  country: GB
+  tie: place
+  where: "Norfolk, Suffolk and nearby"
+  core: ["norwich-eng"]
+  wider: ["east-anglia"]
+  also: ["East Anglian English"]
+  group: "East of England"
+
+- id: west-country
+  name: "West Country"
+  country: GB
+  tie: place
+  where: "Cornwall, Devon, Somerset and Dorset"
+  core: ["bristol-eng", "exeter-eng", "plymouth-eng"]
+  wider: ["west-country"]
+  also: ["Westcountry English"]
+  group: "South West England"
+
+- id: cardiff
+  name: "Cardiff"
+  country: GB
+  tie: place
+  where: "Cardiff and the south coast of Wales"
+  core: ["cardiff-wls"]
+  wider: ["south-wales"]
+  also: ["Cardiff English"]
+  group: "Wales"
+
+- id: welsh-valleys
+  name: "Welsh Valleys"
+  country: GB
+  tie: place
+  where: "The valleys north of the south Wales coast"
+  core: ["swansea-wls"]
+  wider: ["south-wales"]
+  also: ["Valleys English"]
+  group: "Wales"
+
+- id: glaswegian
+  name: "Glaswegian"
+  country: GB
+  tie: place
+  where: "Glasgow and the Central Belt"
+  core: ["glasgow-sct"]
+  wider: ["central-belt"]
+  also: ["Glasgow English"]
+  group: "Scotland"
+
+- id: highland
+  name: "Highland"
+  country: GB
+  tie: place
+  where: "The Scottish Highlands"
+  core: ["inverness-sct"]
+  wider: ["highlands"]
+  also: ["Highland English"]
+  group: "Scotland"
+
+- id: ulster
+  name: "Ulster"
+  country: GB
+  tie: place
+  where: "Northern Ireland and the counties just over the border"
+  core: ["belfast-nir", "derry-nir"]
+  wider: ["ulster"]
+  also: ["Ulster English"]
+  group: "Ireland"
+
+- id: dublin
+  name: "Dublin"
+  country: IE
+  tie: place
+  where: "Dublin and the east coast of Ireland"
+  core: ["dublin-ie"]
+  wider: ["leinster-east"]
+  also: ["Dublin English"]
+  group: "Ireland"
+
+- id: rp
+  name: "Received Pronunciation"
+  country: GB
+  tie: social
+  where: "Tied to class and schooling, not to a place"
+  wider: ["england"]
+  also: ["RP"]
+  group: "Not tied to one place"
+  who: "Mostly older, privately educated speakers (made-up description)."
+  about: "A sample entry: an accent tied to class and schooling rather than a place."
+
+- id: ssbe
+  name: "Standard Southern British"
+  country: GB
+  tie: social
+  where: "A newer standard heard mostly in the south east"
+  wider: ["home-counties", "oxford-eng", "cambridge-eng"]
+  also: ["SSBE"]
+  group: "Not tied to one place"
+
+- id: mle
+  name: "Multicultural London English"
+  country: GB
+  tie: social
+  where: "Young people across London"
+  wider: ["london"]
+  also: ["MLE"]
+  group: "Not tied to one place"
+  who: "Younger people in London (made-up description)."

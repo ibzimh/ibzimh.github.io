@@ -45,13 +45,13 @@ export function buildData(input: RawInput, opts: BuildOpts) {
 
   // Samples: dev only, and only while the real findings have no rows.
   const usingSamples = opts.dev && !!input.sample && countRows(input.findings) === 0;
-  const sample = usingSamples ? input.sample! : { findings: [], areas: [], accents: [] };
+  const sample = usingSamples ? input.sample! : { findings: [], areas: [], accents: [], shapes: [] };
   const realSources = checkSources(ctx, input.sources);
   const sources = usingSamples ? new Map(sampleSources.map((s) => [s.key, s])) : realSources;
 
   const sounds = checkSounds(ctx, input.features);
   const places = checkPlaces(ctx, input.places, geo);
-  const areas = parseAreas(ctx, [...input.areas, ...sample.areas], input.shapes);
+  const areas = parseAreas(ctx, [...input.areas, ...sample.areas], [...input.shapes, ...(sample.shapes ?? [])]);
   const accents = parseAccents(ctx, [...input.accents, ...sample.accents]);
   const index = buildIndex(ctx, { sound: ids(sounds), place: ids(places), area: ids(areas), accent: ids(accents) });
   linkAreas(ctx, areas, index);

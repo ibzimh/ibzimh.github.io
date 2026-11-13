@@ -19,6 +19,7 @@ export function readInput(): RawInput {
     sample: {
       findings: files(import.meta.glob<string>('./data/sample/findings/*.csv', { query: '?raw', import: 'default', eager: true })),
       areas: files(import.meta.glob<string>('./data/sample/areas/*.yaml', { query: '?raw', import: 'default', eager: true })),
+      shapes: files(import.meta.glob<string>('./data/sample/areas/shapes/*.geojson', { query: '?raw', import: 'default', eager: true })),
       accents: files(import.meta.glob<string>('./data/sample/accents/*.yaml', { query: '?raw', import: 'default', eager: true })),
     },
   };

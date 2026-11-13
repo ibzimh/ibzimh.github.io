@@ -1,0 +1,71 @@
+# Sample accents for the US: made up, loaded only in dev. Same format as ../../accents/accents.yaml.
+
+- id: inland-north
+  name: "Inland North"
+  country: US
+  tie: place
+  where: "Around the Great Lakes"
+  core: ["chicago-il", "detroit-mi", "buffalo-ny"]
+  wider: ["inland-north"]
+  also: ["Great Lakes accent"]
+  group: "Great Lakes"
+
+- id: southern
+  name: "Southern"
+  country: US
+  tie: place
+  where: "The southern states"
+  core: ["atlanta-ga", "nashville-tn"]
+  wider: ["the-south"]
+  also: ["Southern American"]
+  group: "The South"
+
+- id: midland
+  name: "Midland"
+  country: US
+  tie: place
+  where: "The middle of the country"
+  core: ["kansas-city-mo"]
+  wider: ["midland"]
+  also: ["Midland American"]
+  group: "Middle of the country"
+
+- id: western
+  name: "Western"
+  country: US
+  tie: place
+  where: "The western states"
+  core: ["denver-co", "seattle-wa"]
+  wider: ["the-west"]
+  also: ["Western American"]
+  group: "Mountains and Pacific"
+
+- id: eastern-new-england
+  name: "Eastern New England"
+  country: US
+  tie: place
+  where: "Eastern Massachusetts, New Hampshire and Maine"
+  core: ["boston-ma"]
+  wider: ["eastern-new-england"]
+  also: ["Boston accent"]
+  group: "North East coast"
+
+- id: new-york-city
+  name: "New York City"
+  country: US
+  tie: place
+  where: "The five boroughs and nearby"
+  core: ["new-york-ny"]
+  wider: ["new-york-city"]
+  also: ["New Yorker"]
+  group: "North East coast"
+
+- id: pittsburgh
+  name: "Pittsburgh"
+  country: US
+  tie: place
+  where: "Pittsburgh and western Pennsylvania"
+  core: ["pittsburgh-pa"]
+  wider: ["western-pennsylvania"]
+  also: ["Pittsburghese"]
+  group: "Pennsylvania"

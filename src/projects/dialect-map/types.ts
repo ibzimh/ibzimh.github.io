@@ -165,7 +165,7 @@ export interface RawInput {
   accents: DataFile[];
   findings: DataFile[];
   glossary: DataFile[];
-  sample?: { findings: DataFile[]; areas: DataFile[]; accents: DataFile[] };
+  sample?: { findings: DataFile[]; areas: DataFile[]; accents: DataFile[]; shapes?: DataFile[] };
 }
 
 export interface BuildOpts {

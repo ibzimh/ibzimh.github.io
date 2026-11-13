@@ -1,0 +1,130 @@
+# Sample areas for Britain and Ireland: made up, loaded only in dev. Same format as ../../areas/areas.yaml.
+# The shapes come from real units where one exists; the facts about them are made up.
+
+# official pieces
+- id: yorkshire
+  name: Yorkshire
+  country: GB
+  units: {set: gb-historic-counties, ids: [yorkshire]}
+
+- id: lancashire
+  name: Lancashire
+  country: GB
+  units: {set: gb-historic-counties, ids: [lancashire]}
+
+- id: london
+  name: London
+  country: GB
+  units: {set: gb-regions, ids: [london]}
+
+- id: england
+  name: England
+  country: GB
+  units: {set: bi-nations, ids: [england]}
+
+- id: munster
+  name: Munster
+  country: IE
+  units: {set: ie-counties, ids: [clare, cork, kerry, limerick, tipperary, waterford]}
+
+- id: west-country
+  name: West Country
+  country: GB
+  edge: rough
+  units: {set: gb-historic-counties, ids: [cornwall, devon, somerset, dorset]}
+  outline_from: The four historic counties; where the West Country stops is a matter of opinion.
+
+- id: east-anglia
+  name: East Anglia
+  country: GB
+  units: {set: gb-historic-counties, ids: [norfolk, suffolk]}
+
+# a circle round a dot
+- id: merseyside
+  name: Merseyside
+  country: GB
+  around: {place: liverpool-eng, km: 16}
+
+- id: leinster-east
+  name: Leinster (East)
+  country: IE
+  around: {place: dublin-ie, km: 40}
+
+# several areas joined
+- id: region-north-east
+  name: North East region
+  country: GB
+  units: {set: gb-regions, ids: [north-east]}
+
+- id: region-north-west
+  name: North West region
+  country: GB
+  units: {set: gb-regions, ids: [north-west]}
+
+- id: region-yorkshire-humber
+  name: Yorkshire and The Humber region
+  country: GB
+  units: {set: gb-regions, ids: [yorkshire-and-the-humber]}
+
+- id: north-of-england
+  name: North of England
+  country: GB
+  of: [region-north-east, region-north-west, region-yorkshire-humber]
+
+- id: northern-ireland-part
+  name: Northern Ireland
+  country: GB
+  units: {set: bi-nations, ids: [northern-ireland]}
+
+- id: ulster-in-ireland
+  name: Donegal, Cavan and Monaghan
+  country: IE
+  units: {set: ie-counties, ids: [donegal, cavan, monaghan]}
+
+- id: ulster
+  name: Ulster
+  country: GB
+  edge: exact
+  of: [northern-ireland-part, ulster-in-ireland]
+
+# drawn by hand (files in shapes/)
+- id: north-east
+  name: North East
+  country: GB
+  drawn: north-east.geojson
+
+- id: west-midlands
+  name: West Midlands
+  country: GB
+  drawn: west-midlands.geojson
+
+- id: home-counties
+  name: Home Counties
+  country: GB
+  drawn: home-counties.geojson
+
+- id: south-wales
+  name: South Wales
+  country: GB
+  drawn: south-wales.geojson
+
+- id: north-wales
+  name: North Wales
+  country: GB
+  drawn: north-wales.geojson
+
+- id: central-belt
+  name: Central Belt
+  country: GB
+  drawn: central-belt.geojson
+
+- id: highlands
+  name: Highlands
+  country: GB
+  drawn: highlands.geojson
+
+- id: east-end
+  name: East End
+  country: GB
+  drawn: east-end.geojson
+  closeup: london

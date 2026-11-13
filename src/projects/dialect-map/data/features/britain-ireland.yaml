@@ -1,0 +1,89 @@
+# Sounds heard in Britain and Ireland. Same format as sounds.yaml.
+
+- id: foot-strut
+  name: FOOT–STRUT split
+  also: [put–putt split, STRUT–FOOT split]
+  scale: pair
+  words: [put, putt]
+  group: mergers-and-splits
+  examples: [put / putt, could / cud, full / dull]
+  about: Whether "put" and "putt" are said with different vowels. Most of southern England has the split; many northern accents say both words like "put".
+
+- id: nurse-square
+  name: NURSE–SQUARE merger
+  also: [fur–fair merger]
+  scale: pair
+  words: [nurse, square]
+  group: mergers-and-splits
+  examples: [fur / fair, her / hair]
+  about: Whether the vowels in "nurse" and "square" sound the same. It is best known from Liverpool, where "fur" and "fair" can sound alike.
+
+- id: pull-pool
+  name: pull–pool merger
+  also: [FOOT–GOOSE merger]
+  scale: pair
+  words: [pull, pool]
+  group: mergers-and-splits
+  examples: [pull / pool, full / fool]
+  about: Whether "pull" and "pool" sound the same. In much of Scotland they are said with the same vowel.
+
+- id: wine-whine
+  name: wine–whine merger
+  also: [hw-merger]
+  scale: pair
+  words: [wine, whine]
+  group: mergers-and-splits
+  examples: [wine / whine, witch / which]
+  about: Whether "wine" and "whine" start with the same sound. In accents that keep them apart, "whine" begins with a breathy "hw".
+
+- id: th-fronting
+  name: TH-fronting
+  also: [th to f]
+  scale: change
+  from: think
+  to: fink
+  group: consonants
+  examples: [think / fink, bath / barf]
+  about: Saying "f" where others say the "th" of "think", and "v" in place of the "th" of "brother".
+
+- id: t-glottaling
+  name: T-glottaling
+  also: [glottal stop]
+  scale: change
+  from: butter
+  to: bu'er
+  group: consonants
+  examples: [butter, bottle, football]
+  about: Replacing the "t" in the middle or at the end of a word with a quick catch in the throat.
+
+- id: h-dropping
+  name: H-dropping
+  also: [dropping h]
+  scale: change
+  from: house
+  to: "'ouse"
+  group: consonants
+  examples: [house, hat, behind]
+  about: Leaving out the "h" at the start of words, so "house" sounds like "'ouse".
+
+- id: l-vocalisation
+  name: L-vocalisation
+  also: [vocalised l]
+  scale: change
+  from: milk
+  to: miwk
+  group: consonants
+  examples: [milk, bottle, hill]
+  about: Saying the "l" at the end of a syllable like a "w" or a short "u".
+
+- id: bath-vowel
+  name: BATH vowel
+  also: [trap–bath split]
+  scale: options
+  word: bath
+  group: vowels
+  options:
+    - {id: short, label: "short, like trap"}
+    - {id: long, label: "long, like palm"}
+  examples: [bath, grass, dance]
+  about: Which vowel is used in words like "bath", "grass" and "dance". Southern England mostly has the long vowel and the north the short one.

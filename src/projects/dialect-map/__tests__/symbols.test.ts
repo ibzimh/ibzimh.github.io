@@ -12,7 +12,11 @@ describe('sample dots', () => {
   });
   it('look the same as before the migration', () => {
     const expected = Object.entries(old as Record<string, string>);
-    expect(expected).toHaveLength(places.length * features.length);
+    // the old data was the US only; Britain and Ireland came later
+    const usPlaces = places.filter((p) => p.country === 'US');
+    const old8 = new Set(expected.map(([k]) => k.split('|')[1]));
+    expect(expected).toHaveLength(usPlaces.length * old8.size);
+    expect(features.filter((f) => old8.has(f.id))).toHaveLength(old8.size);
     for (const [key, symbol] of expected) {
       const [place, feature] = key.split('|');
       const want = feature === 'canadian-raising' ? (swapped[symbol] ?? symbol) : symbol;
