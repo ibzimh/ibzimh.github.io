@@ -9,7 +9,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run",
+    "atlas:geo": "node scripts/atlas-geo.mjs",
+    "atlas:geo-preview": "node scripts/atlas-geo-preview.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
@@ -23,13 +25,23 @@
     "@types/topojson-simplify": "^3.0.3",
     "astro": "^7.4.0",
     "d3-geo": "^3.1.1",
+    "d3-shape": "^3.2.1",
+    "fflate": "^0.8.3",
+    "polygon-clipping": "^0.15.7",
+    "polylabel": "^2.1.0",
+    "shapefile": "^0.6.6",
     "topojson-client": "^3.1.0",
+    "topojson-server": "^3.0.1",
     "topojson-simplify": "^3.0.3",
     "typescript": "^6.0.3",
     "us-atlas": "^3.0.1",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
+    "@types/d3-shape": "^3.2.0",
+    "@types/geojson": "^7946.0.16",
+    "@types/polylabel": "^2.0.0",
+    "@types/topojson-server": "^3.0.4",
     "vitest": "^4.1.12"
   }
 }

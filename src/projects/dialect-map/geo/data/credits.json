@@ -1,0 +1,77 @@
+{
+ "bi-nations": {
+  "name": "Nations of Britain and Ireland",
+  "publisher": "Natural Earth",
+  "url": "https://www.naturalearthdata.com/",
+  "licence": "Public domain",
+  "credits": [
+   "Made with Natural Earth"
+  ],
+  "fetched": "2026-11-13",
+  "units": 8
+ },
+ "gb-counties": {
+  "name": "Counties and unitary authorities of the UK",
+  "publisher": "Office for National Statistics, Open Geography Portal",
+  "url": "https://geoportal.statistics.gov.uk/",
+  "licence": "Open Government Licence v3.0",
+  "credits": [
+   "Source: Office for National Statistics licensed under the Open Government Licence v.3.0",
+   "Contains OS data © Crown copyright and database right 2026"
+  ],
+  "fetched": "2026-11-13",
+  "units": 218
+ },
+ "gb-historic-counties": {
+  "name": "Historic counties of the UK (Definition A)",
+  "publisher": "Historic Counties Trust, Historic County Borders Project",
+  "url": "https://www.county-borders.co.uk/",
+  "licence": "Free for any use with acknowledgement",
+  "credits": [
+   "Made use of data provided by the Historic County Borders Project (county-borders.co.uk)"
+  ],
+  "fetched": "2026-11-13",
+  "units": 92
+ },
+ "gb-regions": {
+  "name": "Regions of England",
+  "publisher": "Office for National Statistics, Open Geography Portal",
+  "url": "https://geoportal.statistics.gov.uk/",
+  "licence": "Open Government Licence v3.0",
+  "credits": [
+   "Source: Office for National Statistics licensed under the Open Government Licence v.3.0",
+   "Contains OS data © Crown copyright and database right 2026"
+  ],
+  "fetched": "2026-11-13",
+  "units": 9
+ },
+ "ie-counties": {
+  "name": "Counties of Ireland",
+  "publisher": "Tailte Éireann (Ordnance Survey Ireland), via data.gov.ie",
+  "url": "https://data.gov.ie/dataset/counties-national-statutory-boundaries-2019",
+  "licence": "CC BY 4.0",
+  "credits": [
+   "Contains Tailte Éireann data licensed under CC BY 4.0"
+  ],
+  "fetched": "2026-11-13",
+  "units": 26
+ },
+ "us-counties": {
+  "name": "Counties of the United States",
+  "publisher": "US Census Bureau, via the us-atlas package",
+  "url": "https://github.com/topojson/us-atlas",
+  "licence": "Public domain (US government work); package ISC",
+  "credits": [],
+  "fetched": "from npm package us-atlas 3.0.1",
+  "units": 3219
+ },
+ "us-states": {
+  "name": "States of the United States",
+  "publisher": "US Census Bureau, via the us-atlas package",
+  "url": "https://github.com/topojson/us-atlas",
+  "licence": "Public domain (US government work); package ISC",
+  "credits": [],
+  "fetched": "from npm package us-atlas 3.0.1",
+  "units": 52
+ }
+}
