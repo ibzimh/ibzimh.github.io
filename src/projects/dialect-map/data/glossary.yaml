@@ -1,0 +1,17 @@
+# Glossary: plain-English meanings of terms the map uses. A list of entries, each starting with "- ".
+#   term    the word or phrase. Each term once.
+#   also    optional: other spellings or names (list)
+#   plain   what it means, in everyday words. Required
+
+- term: merger
+  plain: Two sounds that used to be different and now sound the same, like "cot" and "caught".
+
+- term: near-merger
+  also: [nearly merged]
+  plain: Two sounds that are still a tiny bit different when measured, but the people saying them can't tell.
+
+- term: vowel shift
+  plain: A chain of vowels that have all moved to new places in the mouth, so each one now sounds a bit like its neighbour used to.
+
+- term: said vs heard
+  plain: Some studies measure how people say words, others test whether they can hear a difference. The two can disagree.

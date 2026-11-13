@@ -1,0 +1,14 @@
+# Areas: regions of a map. Every file in areas/ is read. A list of entries, each starting with "- ".
+#   id            lowercase letters, numbers, dashes. Shares one id space with places.
+#   name          what to call it
+#   country       US, GB, IE or IM
+#   ...and exactly ONE of how it is made:
+#   units:        {set: us-states, ids: [PA, OH]}      whole states or counties from a set
+#   drawn:        north-of-england.geojson             a Polygon/MultiPolygon file in areas/shapes/
+#   around:       {place: liverpool-eng, km: 15}       a circle round a place (a dot id)
+#   of:           [area ids]                           several areas joined; optional  minus: [area ids]
+#   edge          optional: exact | rough. Default: units exact, everything else rough
+#   outline_from  optional: where the outline comes from (text)
+#   closeup       optional: note for the zoomed view (text)
+#   also          optional: other names (list)
+#   was           optional: old ids (list)

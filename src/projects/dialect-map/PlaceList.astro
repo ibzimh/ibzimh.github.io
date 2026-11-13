@@ -1,18 +1,18 @@
 ---
 // Every place for the current feature, grouped by what is recorded. The script re-renders this on change.
-import { cell, counts, legend, places, sourceById, pageText, type Feature } from './load';
+import { counts, legend, mapPlaces, placeCell, sourceById, pageText, type Feature } from './load';
 
 interface Props {
   feature: Feature;
 }
 const { feature } = Astro.props;
 const n = counts(feature.id);
-const groups = legend(feature.kind)
+const groups = legend(feature)
   .map((l) => ({
     ...l,
     count: n[l.symbol],
-    rows: places
-      .map((p, i) => ({ p, i, c: cell(p.id, feature.id) }))
+    rows: mapPlaces
+      .map((p, i) => ({ p, i, c: placeCell(p.id, feature.id) }))
       .filter((r) => (r.c.shown?.symbol ?? 'none') === l.symbol),
   }))
   .filter((g) => g.count > 0);

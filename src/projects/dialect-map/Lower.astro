@@ -1,13 +1,14 @@
 ---
 // Below the list: recent findings, sources, a glossary and how the map works.
 import { countLabel } from '../../lib/format';
-import { noneLabel, valueInfo } from './config';
-import { featureById, placeById, recent, sourceStats } from './load';
+import { noneLabel } from './config';
+import { legacyInfo } from './legacy';
+import { featureById, legacyValue, nameOf, recent, sourceStats } from './load';
 import { yearsText } from './payload';
 
 const newest = recent(10);
 // each label once (Present, Partial and Absent are shared by two kinds)
-const values = [...new Map(Object.values(valueInfo).map((v) => [v.label, v])).values()];
+const values = [...new Map(Object.values(legacyInfo).map((v) => [v.label, v])).values()];
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
 ---
 
@@ -21,7 +22,7 @@ const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
             <button type="button" data-place={f.place} data-feature={f.feature}>
               <time datetime={f.added}>{f.added}</time>
               <span>
-                {placeById.get(f.place)?.name} · {featureById.get(f.feature)?.name} · {valueInfo[f.value].label.toLowerCase()}
+                {nameOf(f.subject)} · {featureById.get(f.feature)?.name} · {legacyValue(featureById.get(f.feature)!, f.value).label.toLowerCase()}
               </span>
             </button>
           </li>

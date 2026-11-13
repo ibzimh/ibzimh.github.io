@@ -1,11 +1,12 @@
 // Tiny RFC 4180 CSV parser: quoted fields, commas and newlines inside quotes, "" escapes, CRLF, BOM.
+// A line starting with # is a comment.
 
 export interface CsvRow {
   line: number; // 1-based line where the row starts
   cells: string[];
 }
 
-/** Rows of cells; blank lines are skipped. Throws on a quote that never closes. */
+/** Rows of cells; blank and # lines are skipped. Throws on a quote that never closes. */
 export function parseCsv(text: string): CsvRow[] {
   const src = text.replace(/^﻿/, '');
   const rows: CsvRow[] = [];
@@ -36,6 +37,8 @@ export function parseCsv(text: string): CsvRow[] {
         if (c === '\n') line++;
         cell += c;
       }
+    } else if (c === '#' && cell === '' && !cells.length) {
+      while (i + 1 < src.length && src[i + 1] !== '\n' && src[i + 1] !== '\r') i++;
     } else if (c === '"' && cell === '') quoted = true;
     else if (c === ',') endCell();
     else if (c === '\n' || c === '\r') {

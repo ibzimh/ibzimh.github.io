@@ -1,3 +1,12 @@
+# Sources: the books and studies findings come from. A list of entries, each starting with "- ".
+#   key        lowercase letters, numbers, dashes. Used in findings. (sample and sample-b are reserved)
+#   short      short name shown in lists
+#   citation   full reference
+#   published  year
+#   data       [first year, last year] the data was collected
+#   how        optional: one line on the method
+#   link       optional: a web address
+
 - key: anae
   short: ANAE
   citation: "Labov, Ash & Boberg (2006). The Atlas of North American English. Mouton de Gruyter."

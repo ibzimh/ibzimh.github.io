@@ -6,7 +6,7 @@ import Picker from '../../projects/dialect-map/Picker.astro';
 import PlaceList from '../../projects/dialect-map/PlaceList.astro';
 import { baseMap } from '../../projects/dialect-map/basemap';
 import { buildPayload } from '../../projects/dialect-map/payload';
-import { features, places, stats, symbolOf, usingSamples } from '../../projects/dialect-map/load';
+import { features, mapPlaces as places, stats, symbolOf, usingSamples } from '../../projects/dialect-map/load';
 // inline, not imported: lib/catalogue.ts globs the pages, so an imported stylesheet would load on every page
 import css from '../../projects/dialect-map/map.css?raw';
 
@@ -52,7 +52,7 @@ const statsText = [
     {
       usingSamples && (
         <p class="dm-sample">
-          <b>Sample data.</b> These findings are made up to show how the map works. They disappear once findings.csv has a real row, and never reach the live site.
+          <b>Sample data.</b> These findings are made up to show how the map works. They disappear once a findings file has a real row, and never reach the live site.
         </p>
       )
     }

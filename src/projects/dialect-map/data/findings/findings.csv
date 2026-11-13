@@ -1,0 +1,15 @@
+# Findings: one row says what one source reports for one sound, about one place OR one accent. Every file in findings/ is read.
+# place     a dot or an area id (fill in this OR accent, never both)
+# accent    an accent id
+# feature   a sound id
+# value     the answer: for pair same, nearly, mixed, different. For change yes, mixed, no. For options an option id, or mixed
+# source    a key from sources.yaml
+# page      free text; digits or a range (61, 61-63) show as "p. 61"
+# added     YYYY-MM-DD, when the row was typed in
+# checked   YYYY-MM-DD, when someone checked it against the source. Empty means DRAFT: shown in dev, left out of the real site
+# mode      optional: say, hear or both
+# ages      optional: who it applies to when a source splits by age
+# who       optional: which speakers, when a source splits by group
+# note      optional
+# Two rows may not share place or accent, feature, source, mode, ages and who.
+place,accent,feature,value,source,page,added,checked,mode,ages,who,note

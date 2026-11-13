@@ -1,0 +1,15 @@
+# Accents: named ways of speaking. Every file in accents/ is read. A list of entries, each starting with "- ".
+#   id       lowercase letters, numbers, dashes
+#   name     what to call it
+#   country  US, GB, IE or IM
+#   tie      place | social   (place: spoken in certain places; social: tied to a group of people)
+#   where    plain words saying where or among whom. Required
+#   core     optional: [dot or area ids] where it is strongest
+#   wider    optional: [dot or area ids] where it is also heard. A "place" accent needs at least one id in core or wider
+#   also     optional: other names (list)
+#   group    optional: heading for lists. Two headings a letter or two apart are treated as a typo
+#   parent   optional: id of the accent this one belongs under
+#   who      optional: text
+#   about    optional: text
+#   listen   optional: [{label: ..., url: https://...}]
+#   was      optional: old ids (list)

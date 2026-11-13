@@ -1,14 +1,14 @@
 ---
 // The card's inspector, feature view. The script (map.ts) swaps in the city view and re-renders this one.
-import { kinds } from './config';
-import { counts, differCount, featureSources, legend, places, type Feature } from './load';
+import { examplesOf, legacyKindOf, legacyKinds } from './legacy';
+import { counts, differCount, featureSources, legend, mapPlaces, type Feature } from './load';
 import { yearsText } from './payload';
 
 interface Props {
   feature: Feature;
 }
 const { feature } = Astro.props;
-const kind = kinds.find((k) => k.id === feature.kind);
+const kind = legacyKinds.find((k) => k.id === legacyKindOf(feature));
 const n = counts(feature.id);
 const sources = featureSources(feature.id);
 const differs = differCount(feature.id);
@@ -17,8 +17,8 @@ const differs = differCount(feature.id);
 <div class="card-foot dm-insp" data-inspector>
   <p class="lab">{kind?.label}</p>
   <h2 class="card-title">{feature.name}</h2>
-  {feature.also && <p class="dm-also">Also called {feature.also}</p>}
-  <p class="dm-say"><span class="lab">Say</span> <i>{feature.examples.join(' · ')}</i></p>
+  {feature.also.length > 0 && <p class="dm-also">Also called {feature.also.join(' · ')}</p>}
+  <p class="dm-say"><span class="lab">Say</span> <i>{examplesOf(feature).join(' · ')}</i></p>
   <p class="card-line">{feature.about}</p>
   {
     sources.length === 0 ? (
@@ -26,7 +26,7 @@ const differs = differCount(feature.id);
     ) : (
       <Fragment>
         <ul class="dm-leg">
-          {legend(feature.kind).map((l) => (
+          {legend(feature).map((l) => (
             <li>
               <button type="button" data-k={`leg:${l.symbol}`} data-sym={l.symbol} aria-pressed="false">
                 <span class={`sym ${l.symbol}`} aria-hidden="true" />
@@ -36,7 +36,7 @@ const differs = differCount(feature.id);
             </li>
           ))}
         </ul>
-        <p class="dm-total tn">{places.length} places</p>
+        <p class="dm-total tn">{mapPlaces.length} places</p>
         <p class="lab dm-h">Data from</p>
         <ul class="dm-from">
           {sources.map((s) => (

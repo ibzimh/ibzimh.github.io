@@ -1,45 +1,59 @@
-// What the dialect map can show: kinds of feature, their values, how values look, and the maps.
-
-export const kinds = [
-  { id: 'merger', label: 'Merger', plural: 'Mergers', values: ['merged', 'near-merged', 'in-progress', 'distinct'] },
-  { id: 'shift', label: 'Vowel shift', plural: 'Vowel shifts', values: ['present', 'partial', 'absent'] },
-  { id: 'sound', label: 'Other sound', plural: 'Other sounds', values: ['present', 'partial', 'absent'] },
-] as const;
-
-export type Kind = (typeof kinds)[number];
-export type KindId = Kind['id'];
-export type Value = Kind['values'][number];
+// What the dialect map knows about: scales and their values, sound groups, countries, modes, plates.
 
 /** The look of a dot. `none` is "nothing recorded". Also the CSS class of the dot. */
-export type DotSymbol = 'full' | 'near' | 'half' | 'ring' | 'none';
+export type DotSymbol = 'full' | 'near' | 'half' | 'ring' | 'none' | 'opt0' | 'opt1' | 'opt2' | 'opt3' | 'opt4' | 'opt5';
 
 /** Legend order. */
-export const symbols: readonly DotSymbol[] = ['full', 'near', 'half', 'ring', 'none'];
+export const symbols: readonly DotSymbol[] = ['full', 'near', 'half', 'ring', 'none', 'opt0', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+
+export const optionSymbols = ['opt0', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'] as const;
 
 export const noneLabel = 'Nothing recorded';
 
-export const valueInfo: Record<Value, { label: string; symbol: DotSymbol; meaning: string }> = {
-  merged: { label: 'Merged', symbol: 'full', meaning: 'the two sounds are the same for people there.' },
-  'near-merged': {
-    label: 'Near-merged',
-    symbol: 'near',
-    meaning: "people make a tiny difference when they speak but can't hear it.",
+export interface ValueDef {
+  id: string;
+  label: string;
+  symbol: DotSymbol;
+}
+
+/** Fixed scales. `options` has no fixed values: each sound lists its own, plus `mixed`. */
+export const scales = {
+  pair: {
+    label: 'Pair',
+    values: [
+      { id: 'same', label: 'Same', symbol: 'full' },
+      { id: 'nearly', label: 'Nearly the same', symbol: 'near' },
+      { id: 'mixed', label: 'For some', symbol: 'half' },
+      { id: 'different', label: 'Different', symbol: 'ring' },
+    ],
   },
-  'in-progress': {
-    label: 'In progress',
-    symbol: 'half',
-    meaning: "mixed; usually younger people have it and older people don't.",
+  change: {
+    label: 'Change',
+    values: [
+      { id: 'yes', label: 'Yes', symbol: 'full' },
+      { id: 'mixed', label: 'For some', symbol: 'half' },
+      { id: 'no', label: 'No', symbol: 'ring' },
+    ],
   },
-  distinct: { label: 'Distinct', symbol: 'ring', meaning: 'the sounds are kept apart.' },
-  present: { label: 'Present', symbol: 'full', meaning: 'the feature is there.' },
-  partial: { label: 'Partial', symbol: 'half', meaning: 'the feature is partly there.' },
-  absent: { label: 'Absent', symbol: 'ring', meaning: 'the feature is not there.' },
-};
+  options: { label: 'Options', values: [] },
+} as const satisfies Record<string, { label: string; values: readonly ValueDef[] }>;
+
+export type ScaleId = keyof typeof scales;
+export const scaleIds = Object.keys(scales) as ScaleId[];
+export const mixedValue: ValueDef = { id: 'mixed', label: 'For some', symbol: 'half' };
+
+/** Optional heading a sound can sit under. */
+export const soundGroups = [
+  { id: 'mergers-and-splits', label: 'Mergers and splits' },
+  { id: 'vowels', label: 'Vowels' },
+  { id: 'consonants', label: 'Consonants' },
+  { id: 'shifts', label: 'Shifts' },
+] as const;
 
 export const modes = { say: 'said', hear: 'heard', both: 'said and heard' } as const;
 export type Mode = keyof typeof modes;
 
-/** Maps are a registry; the US map is the first. basemap.ts holds the shapes and projection by id. */
+/** Plates are maps. The US plate is the first; Britain and Ireland is still to come. basemap.ts holds the shapes. */
 export const maps = [{ id: 'us', name: 'United States', countries: ['US'] }] as const;
 export type MapId = (typeof maps)[number]['id'];
 
@@ -57,4 +71,12 @@ export const usStates: Record<string, string> = {
   OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota',
   TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia', WA: 'Washington',
   WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming',
+};
+
+/** Countries and their region codes. A place id ends with "-" + its region code in lowercase. */
+export const countries: Record<string, { name: string; regions: Record<string, string> }> = {
+  US: { name: 'United States', regions: usStates },
+  GB: { name: 'Great Britain', regions: { ENG: 'England', SCT: 'Scotland', WLS: 'Wales', NIR: 'Northern Ireland' } },
+  IE: { name: 'Ireland', regions: { IE: 'Ireland' } },
+  IM: { name: 'Isle of Man', regions: { IOM: 'Isle of Man' } },
 };

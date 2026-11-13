@@ -1,3 +1,11 @@
+# Places (dots). Every file in places/ is read. One row per city or town.
+# id       lowercase name-region, ending in "-" + the region code in lowercase (boston-ma, leeds-eng)
+# region   US: the state code. GB: ENG, SCT, WLS or NIR. IE: IE. IM: IOM
+# country  US, GB, IE or IM
+# also     optional column: other names, separated by |
+# rank     optional column: 1, 2 or 3. Default 2
+# was      optional column: old ids, separated by |
+# Dots and areas share one id space: an id may not be used by both.
 id,name,region,country,lat,lon
 anchorage-ak,Anchorage,AK,US,61.22,-149.90
 atlanta-ga,Atlanta,GA,US,33.75,-84.39

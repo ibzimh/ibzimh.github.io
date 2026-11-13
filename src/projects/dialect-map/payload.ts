@@ -1,9 +1,11 @@
 // What the browser needs, as one small JSON-able object. Build time only. map.ts reads the same shape.
-import { modes, noneLabel, symbols, valueInfo, type DotSymbol } from './config';
-import { cell, featureGroups, featureSources, findings, pageText, places, sourceById } from './load';
+import { modes, type DotSymbol } from './config';
+import { featureById, featureGroups, featureSources, findings, legend, legacyValue, mapPlaces, pageText, placeCell, sourceById } from './load';
 import type { Finding } from './load';
+import { examplesOf, legacyKindOf } from './legacy';
 
-export type Sym = DotSymbol;
+/** The five looks the old page draws. */
+export type Sym = Exclude<DotSymbol, `opt${number}`>;
 export interface Payload {
   places: { id: string; n: string; r: string; rn: string; x: number; y: number }[];
   /** Picker order. */
@@ -26,19 +28,17 @@ export function buildPayload(firstId: string): Payload {
   const srcKeys = [...sourceById.keys()];
   const fIdx = new Map<Finding, number>(findings.map((f, i) => [f, i]));
   return {
-    places: places.map((p) => ({ id: p.id, n: p.name, r: p.region, rn: p.regionName, x: p.x, y: p.y })),
-    features: feats.map((f) => ({ id: f.id, name: f.name, also: f.also, kind: f.kind, ex: f.examples, about: f.about })),
+    places: mapPlaces.map((p) => ({ id: p.id, n: p.name, r: p.region, rn: p.regionName, x: p.x!, y: p.y! })),
+    features: feats.map((f) => ({ id: f.id, name: f.name, also: f.also.join(' · '), kind: legacyKindOf(f), ex: examplesOf(f), about: f.about })),
     first: firstId,
     kinds: Object.fromEntries(
-      featureGroups.map(({ kind }) => [
+      featureGroups.map(({ kind, features }) => [
         kind.id,
         {
           label: kind.label,
           plural: kind.plural,
-          legend: [
-            ...kind.values.map((v) => ({ l: valueInfo[v].label, s: valueInfo[v].symbol })),
-            { l: noneLabel, s: 'none' as Sym },
-          ].sort((a, b) => symbols.indexOf(a.s) - symbols.indexOf(b.s)),
+          // the legend comes from the kind's first feature (the old page has no options sounds)
+          legend: legend(features[0]).map((l) => ({ l: l.label, s: l.symbol as Sym })),
         },
       ]),
     ),
@@ -47,8 +47,8 @@ export function buildPayload(firstId: string): Payload {
       return { short: s.short, yrs: yearsText(s.data) };
     }),
     findings: findings.map((f) => ({
-      v: valueInfo[f.value].label,
-      y: f.symbol,
+      v: legacyValue(featureById.get(f.feature)!, f.value).label,
+      y: f.symbol as Sym,
       s: srcKeys.indexOf(f.source),
       p: pageText(f.page),
       m: f.mode ? modes[f.mode] : '',
@@ -56,8 +56,8 @@ export function buildPayload(firstId: string): Payload {
       n: f.note,
     })),
     cells: feats.map((f) =>
-      places.map((p) => {
-        const c = cell(p.id, f.id);
+      mapPlaces.map((p) => {
+        const c = placeCell(p.id, f.id);
         return c.shown ? { h: fIdx.get(c.shown)!, f: c.all.map((x) => fIdx.get(x)!), d: c.differ ? 1 : 0, g: c.ageSplit ? 1 : 0 } : 0;
       }),
     ),

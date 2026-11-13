@@ -1,0 +1,132 @@
+# Sample findings: made up. Loaded only in dev while findings/ has no rows. Same format as ../../findings/findings.csv.
+place,feature,value,source,page,mode,ages,note,added,checked
+anchorage-ak,cot-caught,same,sample,61,,,,2026-03-04,2026-03-04
+anchorage-ak,pin-pen,different,sample,62,,,,2026-09-30,2026-09-30
+anchorage-ak,horse-hoarse,same,sample,64,,,,2026-08-09,2026-08-09
+atlanta-ga,cot-caught,mixed,sample,70,,,,2026-06-11,2026-06-11
+atlanta-ga,pin-pen,same,sample,93,,,,2026-04-18,2026-04-18
+atlanta-ga,mary-marry-merry,different,sample,125,,,,2026-10-12,2026-10-12
+atlanta-ga,horse-hoarse,same,sample,202,,,,2026-09-01,2026-09-01
+atlanta-ga,northern-cities,no,sample,map 8,,,,2026-07-23,2026-07-23
+atlanta-ga,southern-shift,yes,sample,ch. 9,,,,2026-05-02,2026-05-02
+atlanta-ga,dropping-r,no,sample,48,,,,2026-03-04,2026-03-04
+baltimore-md,cot-caught,different,sample,61,,,,2026-09-30,2026-09-30
+baltimore-md,pin-pen,different,sample,62,,,,2026-08-09,2026-08-09
+baltimore-md,horse-hoarse,same,sample,64,,,,2026-06-11,2026-06-11
+baltimore-md,southern-shift,no,sample,70,,,,2026-04-18,2026-04-18
+baltimore-md,canadian-raising,same,sample,93,,,,2026-10-12,2026-10-12
+baltimore-md,dropping-r,mixed,sample,125,,,,2026-09-01,2026-09-01
+boston-ma,cot-caught,nearly,sample,202–203,hear,,Small measurable gap that listeners did not notice.,2026-07-23,2026-07-23
+boston-ma,pin-pen,different,sample,map 8,,,,2026-05-02,2026-05-02
+boston-ma,horse-hoarse,same,sample,ch. 9,,,,2026-03-04,2026-03-04
+boston-ma,northern-cities,no,sample,48,,,,2026-09-30,2026-09-30
+boston-ma,southern-shift,no,sample,61,,,,2026-08-09,2026-08-09
+boston-ma,dropping-r,yes,sample,62,,,,2026-06-11,2026-06-11
+buffalo-ny,cot-caught,different,sample,64,,,,2026-04-18,2026-04-18
+buffalo-ny,pin-pen,different,sample,70,,,,2026-10-12,2026-10-12
+buffalo-ny,mary-marry-merry,different,sample,93,,,,2026-09-01,2026-09-01
+buffalo-ny,horse-hoarse,same,sample,125,,,,2026-07-23,2026-07-23
+buffalo-ny,northern-cities,mixed,sample,202,,,,2026-05-02,2026-05-02
+buffalo-ny,canadian-raising,mixed,sample,map 8,,,,2026-03-04,2026-03-04
+charlotte-nc,cot-caught,different,sample,ch. 9,,,,2026-09-30,2026-09-30
+charlotte-nc,pin-pen,same,sample,48,,,,2026-08-09,2026-08-09
+charlotte-nc,mary-marry-merry,mixed,sample,61,,,,2026-06-11,2026-06-11
+charlotte-nc,canadian-raising,same,sample,62,,,,2026-04-18,2026-04-18
+chicago-il,cot-caught,different,sample,64,,,,2026-10-12,2026-10-12
+chicago-il,pin-pen,different,sample,70–71,say,,,2026-09-01,2026-09-01
+chicago-il,horse-hoarse,same,sample,93,,,,2026-07-23,2026-07-23
+chicago-il,northern-cities,yes,sample,125,,,,2026-05-02,2026-05-02
+cleveland-oh,cot-caught,different,sample,202,,,,2026-03-04,2026-03-04
+cleveland-oh,pin-pen,different,sample,map 8,,,,2026-09-30,2026-09-30
+cleveland-oh,horse-hoarse,same,sample,ch. 9,,,,2026-08-09,2026-08-09
+cleveland-oh,northern-cities,yes,sample,48,,,,2026-06-11,2026-06-11
+dallas-tx,cot-caught,mixed,sample,61,,,,2026-04-18,2026-04-18
+dallas-tx,pin-pen,same,sample,62,,,,2026-10-12,2026-10-12
+dallas-tx,mary-marry-merry,same,sample,64,,,,2026-09-01,2026-09-01
+dallas-tx,horse-hoarse,same,sample,70,,,,2026-07-23,2026-07-23
+dallas-tx,southern-shift,yes,sample,93,,,,2026-05-02,2026-05-02
+denver-co,cot-caught,same,sample,125,both,,,2026-03-04,2026-03-04
+denver-co,pin-pen,different,sample,202,,,,2026-09-30,2026-09-30
+denver-co,mary-marry-merry,same,sample,map 8,,,,2026-08-09,2026-08-09
+detroit-mi,cot-caught,different,sample,ch. 9,,,,2026-06-11,2026-06-11
+detroit-mi,pin-pen,different,sample,48,,,,2026-04-18,2026-04-18
+detroit-mi,mary-marry-merry,different,sample,61–62,,,,2026-10-12,2026-10-12
+detroit-mi,horse-hoarse,same,sample,62,,,,2026-09-01,2026-09-01
+detroit-mi,northern-cities,yes,sample,64,,over 50,Strongest in the oldest group.,2026-07-23,2026-07-23
+detroit-mi,canadian-raising,mixed,sample,70,,,,2026-05-02,2026-05-02
+honolulu-hi,cot-caught,same,sample,93,,,,2026-03-04,2026-03-04
+honolulu-hi,pin-pen,different,sample,125,,,,2026-09-30,2026-09-30
+honolulu-hi,horse-hoarse,same,sample,202,,,,2026-08-09,2026-08-09
+houston-tx,cot-caught,mixed,sample,map 8,,,,2026-06-11,2026-06-11
+houston-tx,pin-pen,same,sample,ch. 9,,,,2026-04-18,2026-04-18
+houston-tx,mary-marry-merry,same,sample,48,,,,2026-10-12,2026-10-12
+houston-tx,horse-hoarse,same,sample,61,,,,2026-09-01,2026-09-01
+houston-tx,southern-shift,yes,sample,62,,,,2026-07-23,2026-07-23
+kansas-city-mo,cot-caught,same,sample,64,,under 40,,2026-05-02,2026-05-02
+kansas-city-mo,pin-pen,mixed,sample,70,,,,2026-03-04,2026-03-04
+kansas-city-mo,horse-hoarse,same,sample,93,,,,2026-09-30,2026-09-30
+las-vegas-nv,cot-caught,same,sample,125,,,,2026-08-09,2026-08-09
+las-vegas-nv,pin-pen,different,sample,202,,,,2026-06-11,2026-06-11
+los-angeles-ca,cot-caught,same,sample,map 8,,,,2026-04-18,2026-04-18
+los-angeles-ca,pin-pen,different,sample,ch. 9,,,,2026-10-12,2026-10-12
+los-angeles-ca,mary-marry-merry,same,sample,48,,,,2026-09-01,2026-09-01
+miami-fl,cot-caught,mixed,sample,61,,,,2026-07-23,2026-07-23
+miami-fl,mary-marry-merry,different,sample,62,,,,2026-05-02,2026-05-02
+miami-fl,canadian-raising,same,sample,64,,,,2026-03-04,2026-03-04
+minneapolis-mn,cot-caught,different,sample,70,,,,2026-09-30,2026-09-30
+minneapolis-mn,pin-pen,different,sample,93,,,,2026-08-09,2026-08-09
+minneapolis-mn,horse-hoarse,same,sample,125,,,,2026-06-11,2026-06-11
+minneapolis-mn,northern-cities,mixed,sample,202,,,,2026-04-18,2026-04-18
+nashville-tn,cot-caught,mixed,sample,map 8,,,,2026-10-12,2026-10-12
+nashville-tn,mary-marry-merry,different,sample,ch. 9,,,,2026-09-01,2026-09-01
+nashville-tn,northern-cities,no,sample,48,,,,2026-07-23,2026-07-23
+nashville-tn,southern-shift,yes,sample,61,,,,2026-05-02,2026-05-02
+new-orleans-la,pin-pen,same,sample,62,,,,2026-03-04,2026-03-04
+new-orleans-la,mary-marry-merry,different,sample,64,,,,2026-09-30,2026-09-30
+new-orleans-la,horse-hoarse,same,sample,70,,,,2026-08-09,2026-08-09
+new-orleans-la,southern-shift,mixed,sample,93–94,,,,2026-06-11,2026-06-11
+new-orleans-la,dropping-r,mixed,sample,125,,,,2026-04-18,2026-04-18
+new-york-ny,cot-caught,different,sample,202,,,,2026-10-12,2026-10-12
+new-york-ny,mary-marry-merry,different,sample,map 8,,,,2026-09-01,2026-09-01
+new-york-ny,horse-hoarse,different,sample,ch. 9,,,,2026-07-23,2026-07-23
+new-york-ny,dropping-r,mixed,sample,48,,,,2026-05-02,2026-05-02
+philadelphia-pa,cot-caught,different,sample,61,,,,2026-03-04,2026-03-04
+philadelphia-pa,pin-pen,different,sample,62,,,,2026-09-30,2026-09-30
+philadelphia-pa,mary-marry-merry,different,sample,64,,,,2026-08-09,2026-08-09
+philadelphia-pa,horse-hoarse,different,sample,70,,,,2026-06-11,2026-06-11
+phoenix-az,cot-caught,same,sample,93,,,,2026-04-18,2026-04-18
+phoenix-az,mary-marry-merry,same,sample,125,,,,2026-10-12,2026-10-12
+pittsburgh-pa,cot-caught,same,sample,202,both,all ages,,2026-09-01,2026-09-01
+pittsburgh-pa,pin-pen,different,sample,map 8,,,,2026-07-23,2026-07-23
+pittsburgh-pa,horse-hoarse,same,sample,ch. 9,,,,2026-05-02,2026-05-02
+pittsburgh-pa,northern-cities,no,sample,48,,,,2026-03-04,2026-03-04
+pittsburgh-pa,southern-shift,no,sample,61,,,,2026-09-30,2026-09-30
+portland-or,cot-caught,same,sample,62–63,,,,2026-08-09,2026-08-09
+portland-or,pin-pen,different,sample,64,,,,2026-06-11,2026-06-11
+portland-or,northern-cities,no,sample,70,,,,2026-04-18,2026-04-18
+portland-or,southern-shift,no,sample,93,,,,2026-10-12,2026-10-12
+portland-or,canadian-raising,mixed,sample,125,,,,2026-09-01,2026-09-01
+providence-ri,cot-caught,nearly,sample,202,,,,2026-07-23,2026-07-23
+providence-ri,mary-marry-merry,same,sample,map 8,,,,2026-05-02,2026-05-02
+providence-ri,dropping-r,yes,sample,ch. 9,,,,2026-03-04,2026-03-04
+salt-lake-city-ut,cot-caught,same,sample,48,,,,2026-09-30,2026-09-30
+salt-lake-city-ut,pin-pen,different,sample,61,,,,2026-08-09,2026-08-09
+san-francisco-ca,cot-caught,same,sample,62,,,,2026-06-11,2026-06-11
+san-francisco-ca,mary-marry-merry,same,sample,64,,,,2026-04-18,2026-04-18
+seattle-wa,cot-caught,same,sample,70,say,,"Younger speakers in the sample, mostly students.",2026-10-12,2026-10-12
+seattle-wa,pin-pen,different,sample,93,,,,2026-09-01,2026-09-01
+seattle-wa,mary-marry-merry,same,sample,125,,,,2026-07-23,2026-07-23
+washington-dc,cot-caught,different,sample,202,,,,2026-05-02,2026-05-02
+washington-dc,mary-marry-merry,mixed,sample,map 8,,,,2026-03-04,2026-03-04
+washington-dc,horse-hoarse,same,sample,ch. 9,,,,2026-09-30,2026-09-30
+washington-dc,dropping-r,mixed,sample,48,,,,2026-08-09,2026-08-09
+dallas-tx,cot-caught,same,sample,66,,under 35,Younger people merge them.,2026-10-02,2026-10-02
+kansas-city-mo,cot-caught,mixed,sample,67,,over 60,,2026-10-02,2026-10-02
+chicago-il,pin-pen,mixed,sample,101,hear,,"Heard as the same by some, said differently.",2026-09-15,2026-09-15
+kansas-city-mo,cot-caught,mixed,sample-b,12,,,,2026-08-20,2026-08-20
+boston-ma,cot-caught,different,sample-b,13,,,,2026-08-20,2026-08-20
+atlanta-ga,pin-pen,different,sample-b,14,,,,2026-08-21,2026-08-21
+houston-tx,mary-marry-merry,mixed,sample-b,15,,,,2026-08-21,2026-08-21
+new-orleans-la,horse-hoarse,different,sample-b,16,,,,2026-08-22,2026-08-22
+seattle-wa,cot-caught,mixed,sample-b,17,,,,2026-08-22,2026-08-22
+denver-co,cot-caught,same,sample-b,18,,,,2026-08-22,2026-08-22
