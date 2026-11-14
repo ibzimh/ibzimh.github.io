@@ -4,3 +4,4 @@ dist
 .DS_Store
 docs/scratchpad.md
 .claude/worktrees/
+data-sources/

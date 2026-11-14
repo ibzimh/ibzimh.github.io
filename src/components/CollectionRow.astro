@@ -16,7 +16,7 @@ const state = await collectionState(c);
 <li>
   <a class="row crow" href={`/${c.slug}/`} {...cardAttrs(state)}>
     <span class="big">{c.letter}</span>
-    <span class="t">{c.name}<span class="sub">{c.blurb}</span></span>
+    <span class="t">{c.name}{c.blurb && <span class="sub">{c.blurb}</span>}</span>
     <span class="meta">
       {range ? <Fragment set:html={`${numberHtml(range.first)} – ${numberHtml(range.last)}`} /> : 'Empty'}<span class="ct">{countLabel(count)}</span>
     </span>

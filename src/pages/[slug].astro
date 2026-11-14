@@ -47,7 +47,7 @@ let lastYear = '';
   collection && (
     <Shell
       title={collection.name}
-      description={collection.blurb}
+      description={collection.name}
       layout="list"
       page="collection"
       coll={collection.letter}
@@ -56,11 +56,11 @@ let lastYear = '';
       <div class="col">
         <header class="head">
           <h1>{collection.name}</h1>
-          <p>{collection.intro}</p>
+          {collection.intro && <p>{collection.intro}</p>}
         </header>
         <Filters name={collection.name} kinds={kinds} total={list.length} />
         {list.length === 0 ? (
-          <p class="none">Nothing here yet.</p>
+          <p class="none">nothing here yet.</p>
         ) : (
           <ol class={`rows${project ? ' noyr' : ''}`}>
             {list.map((i) => {
