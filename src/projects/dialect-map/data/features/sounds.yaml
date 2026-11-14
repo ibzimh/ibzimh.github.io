@@ -88,3 +88,12 @@
   group: consonants
   examples: [car, park, water]
   about: Leaving out the r sound after a vowel, so "car" sounds like "cah". Where people say the r, the place is rhotic.
+
+- id: father-bother
+  name: father–bother merger
+  also: [PALM–LOT merger]
+  scale: pair
+  words: [father, bother]
+  group: mergers-and-splits
+  examples: [father / bother, balm / bomb, lager / logger]
+  about: Whether "father" and "bother" rhyme. Most Americans say them with the same vowel; a few places on the east coast keep them apart.

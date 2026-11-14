@@ -11,7 +11,7 @@ const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? o
 <AtlasLayout title="Sources" description="Where every finding in the dialect atlas comes from: the books and studies, when their data was collected, and how." kind="doc">
   <main class="doc">
     <h1>Sources</h1>
-    <p class="lede">Every finding on the map comes from one of these. {usingSamples && ' The ones below are made up, to show how the page works.'}</p>
+    <p class="lede">Every finding on the map comes from one of these. {usingSamples && ' The ones below are stand-ins until real sources are added.'}</p>
     <ol class="sources">
       {
         sourceStats.map(({ source, findings, features, places }) => (

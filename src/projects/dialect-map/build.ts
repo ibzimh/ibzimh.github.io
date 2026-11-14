@@ -43,8 +43,8 @@ export function buildData(input: RawInput, opts: BuildOpts) {
   const ctx = newCtx();
   const geo = opts.geo ?? defaultGeo;
 
-  // Samples: dev only, and only while the real findings have no rows.
-  const usingSamples = opts.dev && !!input.sample && countRows(input.findings) === 0;
+  // Samples: shown only while the real findings have no rows.
+  const usingSamples = !!input.sample && countRows(input.findings) === 0;
   const sample = usingSamples ? input.sample! : { findings: [], areas: [], accents: [], shapes: [] };
   const realSources = checkSources(ctx, input.sources);
   const sources = usingSamples ? new Map(sampleSources.map((s) => [s.key, s])) : realSources;

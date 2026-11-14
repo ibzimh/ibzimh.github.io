@@ -125,20 +125,14 @@ describe('atlas data, dev', () => {
 });
 
 describe('atlas data, not dev', () => {
-  it('has no sample content or drafts, and still has places and every sound', () => {
+  it('shows the sample content while findings/ is empty, with no drafts', () => {
     for (const id of plates) {
       const a = buildAtlas(live, id);
-      expect(a.sample).toBe(false);
-      expect(a.accents).toEqual([]);
-      expect(a.areas).toEqual([]);
-      expect(a.findings).toEqual([]);
-      expect(a.sources).toEqual([]);
+      expect(a.sample).toBe(true);
+      expect(a.findings.length).toBeGreaterThan(0);
       expect(a.dots.length).toBeGreaterThanOrEqual(30);
       expect(a.sounds).toHaveLength(live.features.length);
-      for (const s of Object.values(a.derived.sounds)) {
-        expect(s.n).toBe(0);
-        expect(s.other).toEqual({});
-      }
     }
+    expect(live.drafts()).toHaveLength(0);
   });
 });

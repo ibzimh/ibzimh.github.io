@@ -64,13 +64,12 @@ describe('samples', () => {
     expect(b.accentById.has('sample-accent')).toBe(true);
     expect([...b.sourceById.keys()]).toEqual(['sample', 'sample-b']);
   });
-  it('are never used when not dev', () => {
+  it('are also used when not dev, while the real findings have no rows', () => {
     const b = build(empty());
-    expect(b.usingSamples).toBe(false);
-    expect(b.findings).toHaveLength(0);
-    expect(b.areaById.has('sample-area')).toBe(false);
-    expect(b.accentById.has('sample-accent')).toBe(false);
-    expect([...b.sourceById.keys()]).toEqual(['s1', 's2']);
+    expect(b.usingSamples).toBe(true);
+    expect(b.findings).toHaveLength(2);
+    expect(b.areaById.has('sample-area')).toBe(true);
+    expect(b.accentById.has('sample-accent')).toBe(true);
   });
   it('read drawn shapes from sample/areas/shapes, only together with sample areas', () => {
     const tri = '{"type":"Polygon","coordinates":[[[-80,40],[-79,40],[-79,41],[-80,40]]]}';
@@ -78,7 +77,6 @@ describe('samples', () => {
     const b = build({ ...empty(), sample: drawn }, { dev: true });
     expect(b.areaById.get('sample-drawn')?.shape).toBeTruthy();
     expect(() => build({ ...empty(), sample: { ...drawn, shapes: [] } }, { dev: true })).toThrow(/tri\.geojson/);
-    expect(build({ ...empty(), sample: drawn }).areaById.has('sample-drawn')).toBe(false);
   });
   it('are not used in dev once the real findings have a row', () => {
     const b = build({ ...valid(), sample }, { dev: true });
@@ -89,11 +87,11 @@ describe('samples', () => {
     const draftOnly = [f('findings/findings.csv', `${head}boston-ma,,cot-caught,same,s1,1,2026-01-01,,,,,`)];
     expect(build({ ...valid(), findings: draftOnly, sample }, { dev: true }).usingSamples).toBe(false);
   });
-  it('are not read at all in a real build of the real files', async () => {
+  it('are used in a real build of the real files while findings/ is empty', async () => {
     const { readInput } = await import('../read');
-    const b = build(readInput(), { dev: false });
-    expect(b.usingSamples).toBe(false);
-    expect(b.findings).toHaveLength(0);
+    const b = build(readInput(), { dev: false, today: new Date().toISOString().slice(0, 10) });
+    expect(b.usingSamples).toBe(true);
+    expect(b.findings.length).toBeGreaterThan(0);
   });
 });
 

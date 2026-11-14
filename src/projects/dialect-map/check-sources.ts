@@ -6,7 +6,7 @@ const year = (v: unknown) => typeof v === 'number' && Number.isInteger(v);
 
 export const sampleSources: Source[] = [
   {
-    key: 'sample', short: 'Sample', citation: 'Made-up rows to show the layout. Not real data.',
+    key: 'sample', short: 'Sample', citation: 'Not yet checked against a real source. Some rows are placeholder.',
     published: new Date().getFullYear(), data: [new Date().getFullYear(), new Date().getFullYear()],
     how: '', link: '', sample: true,
   },

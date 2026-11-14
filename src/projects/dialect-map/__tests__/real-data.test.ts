@@ -76,13 +76,13 @@ describe('real data, dev', () => {
 
   it('has the expected counts', () => {
     expect(dev.places.filter((p) => p.plate === 'britain-ireland')).toHaveLength(40);
-    expect(dev.places.filter((p) => p.plate === 'us')).toHaveLength(30);
-    expect(dev.features).toHaveLength(17);
+    expect(dev.places.filter((p) => p.plate === 'us')).toHaveLength(54);
+    expect(dev.features).toHaveLength(18);
     expect(dev.areas).toHaveLength(32);
     expect(dev.accents).toHaveLength(28);
     const kind = (k: string) => dev.areas.filter((a) => a.made.kind === k).length;
     expect([kind('units'), kind('drawn'), kind('around'), kind('of')]).toEqual([13, 14, 3, 2]);
-    expect(dev.findings).toHaveLength(690);
+    expect(dev.findings).toHaveLength(1015);
     expect(dev.drafts()).toHaveLength(12);
   });
 
@@ -104,13 +104,10 @@ describe('real data, dev', () => {
 });
 
 describe('real data, not dev', () => {
-  it('has no sample content', () => {
-    expect(live.usingSamples).toBe(false);
-    expect(live.areas).toHaveLength(0);
-    expect(live.accents).toHaveLength(0);
-    expect(live.findings).toHaveLength(0);
+  it('shows the sample content while findings/ is empty, with no drafts', () => {
+    expect(live.usingSamples).toBe(true);
+    expect(live.findings.length).toBeGreaterThan(0);
     expect(live.drafts()).toHaveLength(0);
-    expect(live.builtAreas('britain-ireland')).toEqual([]);
     expect(live.places.filter((p) => p.plate === 'britain-ireland')).toHaveLength(40);
   });
 });
